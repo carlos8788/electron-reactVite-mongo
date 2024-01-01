@@ -13,14 +13,15 @@ function createWindow() {
 
     // setupUserIPC();
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1280,
+        height: 720,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true, // Mantén activada la aislación de contexto
             // nodeIntegration: false, // No es necesario si contextIsolation está activado
         }
     });
+    setupUserIPC();
 
     if (app.isPackaged) {
         // Cargar la versión compilada de index.html en producción.
@@ -38,10 +39,7 @@ function createWindow() {
         // cuando deberías borrar el elemento correspondiente.
         mainWindow = null;
     });
-    mainWindow.webContents.on('did-finish-load', () => {
-        mainWindow.webContents.send('connect', { message: '¡Hola desde el proceso principal!' });
-    });
-    setupUserIPC();
+
 }
 
 // Este método será llamado cuando Electron haya finalizado
@@ -73,4 +71,3 @@ app.whenReady()
         connectToDatabase();
 
     })
-

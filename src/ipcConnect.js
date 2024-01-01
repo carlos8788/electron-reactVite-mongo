@@ -1,32 +1,47 @@
 const ipcConnect = {
-    getUsers: () => {
-      window.electron.ipcRenderer.send('get-users');
-    },
-    getOneUser: (userId) => {
-      window.electron.ipcRenderer.send('get-user', userId);
-    },
-    createUser: (userData) => {
-      window.electron.ipcRenderer.send('create-user', userData);
-    },
-    updateUser: (userId, userData) => {
-      window.electron.ipcRenderer.send('update-user', userId, userData);
-    },
-    deleteUser: (userId) => {
-      window.electron.ipcRenderer.send('delete-user', userId);
-    },
-    setupListeners: (callback) => {
-      window.electron.ipcRenderer.on('users-list', (users) => {
-        callback(users);
+  getUsers: () => {
+    return window.electron.ipcRenderer.invoke('get-users')
+      .then(response => JSON.parse(response))
+      .catch(error => {
+        console.error('Error recibido del proceso principal:', error);
+        throw error;
       });
-      window.electron.ipcRenderer.on('user-detail', (user) => {
-        callback(user);
+  },
+  getOneUser: (userId) => {
+    return window.electron.ipcRenderer.invoke('get-user', userId)
+      .then(response => JSON.parse(response))
+      .catch(error => {
+        console.error('Error recibido del proceso principal:', error);
+        throw error;
       });
-    },
-    removeListeners: () => {
-      window.electron.ipcRenderer.removeAllListeners('users-list');
-      window.electron.ipcRenderer.removeAllListeners('user-detail');
-    }
-  };
-  
-  export default ipcConnect;
-  
+  },
+  createUser: (userData) => {
+    return window.electron.ipcRenderer.invoke('create-user', JSON.stringify(userData))
+      .then(response => {
+        console.log('Respuesta del proceso principal:', response);
+        return JSON.parse(response);
+      })
+      .catch(error => {
+        console.error('Error recibido del proceso principal:', error);
+        throw error;
+      });
+  },
+  updateUser: (userId, userData) => {
+    return window.electron.ipcRenderer.invoke('update-user', userId, JSON.stringify(userData))
+      .then(response => JSON.parse(response))
+      .catch(error => {
+        console.error('Error recibido del proceso principal:', error);
+        throw error;
+      });
+  },
+  deleteUser: (userId) => {
+    return window.electron.ipcRenderer.invoke('delete-user', userId)
+      .then(response => JSON.parse(response))
+      .catch(error => {
+        console.error('Error recibido del proceso principal:', error);
+        throw error;
+      });
+  },
+};
+
+export default ipcConnect;
