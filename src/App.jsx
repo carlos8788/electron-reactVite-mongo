@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Components/Layout';
 import Homepage from './Components/Homepage';
+import Form from './Components/Form';
+import Users from './Components/Users';
 
 function App() {
 
@@ -12,8 +14,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          {/* <Route path="/about" element={<AboutPage />} /> */}
-          {/* <Route path="/users" element={<UserPage />} /> */}
+          <Route path="/form" element={<Form />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
       </Layout>
     </Router>
