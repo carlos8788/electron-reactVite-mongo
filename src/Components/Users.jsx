@@ -7,6 +7,8 @@ const Users = () => {
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(5);
+    const [isLoading, setLoading] = useState(false);
+
 
     useEffect(() => {
         ipcConnect.getUsers()
@@ -14,15 +16,40 @@ const Users = () => {
             .catch((error) => console.log(error));
     }, []);
 
-    // Obtener los usuarios actuales
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
-    // Cambiar página
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     ipcConnect.getUsers().then((users) => setUsers(users)).catch((error) => console.log(error));
+
+    const deleteU = (id) => {
+        setLoading(true);
+
+        ipcConnect.deleteUser(id)
+            .then(result => {
+                console.log(result)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const updateU = (id) => ipcConnect.updateUser(id).then(result => console.log(result))
+
+    const Spinner = () => {
+        return (
+            <div
+                class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status">
+                <span
+                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                >Loading...</span>
+            </div>
+        )
+    }
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
@@ -53,13 +80,12 @@ const Users = () => {
                             {/* <th className="py-3 px-6">Number</th> */}
                             <th className="py-3 px-6">Course</th>
                             <th className="py-3 px-6"></th>
-
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
                             currentUsers.map((item, idx) => (
-                                <tr key={idx} className={idx % 2 === 0 ?`bg-slate-300`: ''}>
+                                <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         {/* <img src={item.avatar} className="w-10 h-10 rounded-full" /> */}
                                         <div>
@@ -71,20 +97,20 @@ const Users = () => {
                                     {/* <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td> */}
                                     <td className="px-6 py-4 whitespace-nowrap">Javascript lvl 1</td>
                                     <td className="text-right px-6 whitespace-nowrap">
-                                        <a href="javascript:void()" className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                        <a href="javascript:void()" onClick={() => console.log(item._id)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Edit
                                         </a>
-                                        <button href="javascript:void()" className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                        <button href="javascript:void()" onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Delete
                                         </button>
                                     </td>
                                 </tr>
                             ))
                         }
+                        {isLoading && <Spinner />}
                     </tbody>
                 </table>
             </div>
-
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
                 {Array.from({ length: Math.ceil(users.length / usersPerPage) }, (_, i) => (
@@ -99,9 +125,6 @@ const Users = () => {
                     </li>
                 ))}
             </ol>
-
-
-
         </div>
 
     )

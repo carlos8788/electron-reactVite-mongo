@@ -39,7 +39,7 @@ class UserDao {
 
     async delete(id) {
         try {
-            await this.userModel.delete({ _id: id });
+            await this.userModel.findByIdAndDelete({ _id: id });
             return { success: 'User deleted successfully' }
         } catch (error) {
             throw new Error(error.message)

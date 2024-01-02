@@ -15,7 +15,7 @@ const setupUserIPC = () => {
   ipcMain.handle('get-user', async (event, username) => {
     try {
 
-      const user = await UserController.getOneUser(JSON.parse(username));
+      const user = await UserController.getOneUser(username);
       return JSON.stringify(user);
     } catch (error) {
       throw JSON.stringify(new Error(error));
@@ -32,9 +32,10 @@ const setupUserIPC = () => {
     }
   });
 
-  ipcMain.handle('update-user', async (event, username) => {
+  ipcMain.handle('update-user', async (event, id, userInfo) => {
     try {
-      const user = await UserController.updateUser(JSON.parse(username));
+      const userData = JSON.parse(userInfo);
+      const user = await UserController.updateUser(id, userData);
       return JSON.stringify(user);
     } catch (error) {
       throw JSON.stringify(new Error(error));
