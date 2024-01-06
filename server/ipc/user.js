@@ -50,7 +50,6 @@ const setupUserIPC = () => {
       throw JSON.stringify(new Error(error));
     }
   });
-  // Repite para actualizar y eliminar usuario...
 };
 
 module.exports = setupUserIPC;

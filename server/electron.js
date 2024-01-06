@@ -2,6 +2,7 @@ const electron = require('electron');
 const connectToDatabase = require('./db/connect');
 const setupUserIPC = require('./ipc/user');
 const path = require('path');
+const setupObraSocialIPC = require('./ipc/obraSocial');
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -22,6 +23,7 @@ function createWindow() {
         }
     });
     setupUserIPC();
+    setupObraSocialIPC();
 
     if (app.isPackaged) {
         // Cargar la versión compilada de index.html en producción.
