@@ -7,7 +7,7 @@ const ipcConnect = {
         throw error;
       });
   },
-  getOne: (id, channel) => {
+  getOne: (channel, id) => {
     return window.electron.ipcRenderer.invoke(channel, id)
       .then(response => JSON.parse(response))
       .catch(error => {
@@ -15,7 +15,7 @@ const ipcConnect = {
         throw error;
       });
   },
-  create: (data, channel) => {
+  create: (channel, data) => {
     return window.electron.ipcRenderer.invoke(channel, JSON.stringify(data))
       .then(response => {
         console.log('Respuesta del proceso principal:', response);
@@ -26,7 +26,7 @@ const ipcConnect = {
         throw error;
       });
   },
-  update: (id, data, channel) => {
+  update: (channel,id, data) => {
     return window.electron.ipcRenderer.invoke(channel, id, JSON.stringify(data))
       .then(response => JSON.parse(response))
       .catch(error => {
@@ -34,7 +34,7 @@ const ipcConnect = {
         throw error;
       });
   },
-  delete: (id, channel) => {
+  delete: (channel, id) => {
     return window.electron.ipcRenderer.invoke(channel, id)
       .then(response => JSON.parse(response))
       .catch(error => {

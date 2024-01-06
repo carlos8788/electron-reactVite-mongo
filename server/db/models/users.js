@@ -13,16 +13,12 @@ const userSchema = new Schema({
   observaciones: {
     type: String,
   },
-  hora: {
-    type: String,
-    required: true,
-  },
   telefono: {
     type: String,
     required: true,
   },
   obraSocial: {
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId || undefined,
     ref: 'ObraSocial', // Esto debe coincidir con el nombre que le diste al modelo de obra social
     required: true
   },
@@ -35,9 +31,9 @@ const userSchema = new Schema({
     type: Number,
     required: true,
   },
-  fechaNac: {
+  fechaNacimiento: {
     type: String,
-    required: true,
+    default: '2024-01-01'
   }
 
 });

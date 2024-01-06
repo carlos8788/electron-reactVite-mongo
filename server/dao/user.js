@@ -7,7 +7,7 @@ class UserDao {
 
     async getAll() {
         try {
-            return await this.userModel.find();
+            return await this.userModel.find().populate('obraSocial', 'nombre');
         } catch (error) {
             throw new Error(error.message)
         }
@@ -41,6 +41,15 @@ class UserDao {
         try {
             await this.userModel.findByIdAndDelete({ _id: id });
             return { success: 'User deleted successfully' }
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async findByField(query) {
+        try {
+            const result = await this.userModel.find(query);
+            return result
         } catch (error) {
             throw new Error(error.message)
         }

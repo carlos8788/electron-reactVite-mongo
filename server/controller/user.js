@@ -38,6 +38,15 @@ const UserController = {
             throw error;
         }
     },
+    findByField: async (field, value) => {
+        try {
+            let query = {}
+            query[field] = value;
+            return await user.findByField(query);
+        } catch (error) {
+            throw error;
+        }
+    }
 };
 
 module.exports = UserController;

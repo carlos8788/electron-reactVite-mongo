@@ -23,6 +23,7 @@ const setupUserIPC = () => {
   });
 
   ipcMain.handle('create-user', async (event, userDataString) => {
+    console.log(userDataString)
     try {
       const userData = JSON.parse(userDataString);
       const user = await UserController.createUser(userData);
@@ -46,6 +47,16 @@ const setupUserIPC = () => {
     try {
       const result = await UserController.deleteUser(id);
       return JSON.stringify(result);
+    } catch (error) {
+      throw JSON.stringify(new Error(error));
+    }
+  });
+
+  ipcMain.handle('get-data-filter', async (event, field, value) => {
+    try {
+
+      const data = await UserController.findByField(field, value);
+      return JSON.stringify(data);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }

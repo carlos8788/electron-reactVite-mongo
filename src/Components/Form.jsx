@@ -1,13 +1,22 @@
 
-import { useRef } from 'react';
-import ipcConnect from '../ipcConnect'
+import { useEffect, useRef, useState } from 'react';
+import ipcConnect from '../api/ipcIndex';
 
 
 const Form = () => {
+    const [obrasSociales, setObrasSociales] = useState([])
     const formRef = useRef(null)
 
+    useEffect(() => {
+        ipcConnect.get('get-obraSocials')
+            .then(setObrasSociales)
+            .then(() => console.log(obrasSociales))
+            .catch(error => console.log(error))
+    }, [])
+
     const registerUser = (formData) => {
-        ipcConnect.createUser(formData)
+        // console.log(formData)
+        ipcConnect.create('create-user', formData)
             .then(response => {
                 console.log('Usuario creado:', response);
                 formRef.current.reset();
@@ -26,107 +35,126 @@ const Form = () => {
     };
 
     return (
-        <section classNameName="py-14 font-medium text-gray-600">
-            <div classNameName="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
+        <section className="py-1 font-medium text-gray-600">
+            <div className="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
                 <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-lg">
                         <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Registro</h1>
 
                         <form onSubmit={handleSubmit} ref={formRef} className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200">
-                            <p className="text-center text-lg font-medium">Sign up to your account</p>
-                            <div className='bg-slate-100 rounded-md'>
-                                <label for="username" className="sr-only">Username</label>
+                            <p className="text-center text-lg font-medium">Registre un paciente</p>
+                            <div className="flex gap-x-10">
+                                <div className='flex gap-y-2 flex-col'>
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="nombre" className="sr-only"></label>
 
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                        placeholder="Enter username"
-                                        name='username'
-                                    />
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Ingrese nombre"
+                                                name='nombre'
+                                            />
 
-                                    <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="currentColor"
-                                            className="h-4 w-4 text-gray-400"
-                                        >
-                                            <path
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                        </svg>
+                                        </div>
+                                    </div>
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="apellido" className="sr-only"></label>
 
-                                    </span>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Ingrese apellido"
+                                                name='apellido'
+                                            />
+
+
+                                        </div>
+                                    </div>
+
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="observaciones" className="sr-only"></label>
+
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Observaciones breve"
+                                                name='observaciones'
+                                            />
+
+
+                                        </div>
+                                    </div>
+
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="telefono" className="sr-only"></label>
+
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Ingrese telefono"
+                                                name='telefono'
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='bg-slate-100 rounded-md'>
-                                <label for="email" className="sr-only">Email</label>
+                                <div className='flex gap-y-2 flex-col'>
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="obraSocial" className="sr-only"></label>
+                                        <select name="obraSocial" className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm">
+                                            {
+                                                obrasSociales
+                                                    .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                                                    .map(obrasSocial =>
+                                                        <option key={obrasSocial._id} value={obrasSocial._id} >
+                                                            {obrasSocial.nombre}
+                                                        </option>
+                                                    )
+                                            }
+                                        </select>
 
-                                <div className="relative">
-                                    <input
-                                        type="email"
-                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                        placeholder="Enter email"
-                                        name='email'
-                                    />
-
-                                    <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4 text-gray-400"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                                    </div>
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="dni" className="sr-only"></label>
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Ingrese dni"
+                                                name='dni'
                                             />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </div>
+                                        </div>
+                                    </div>
 
-                            <div className='bg-slate-100 rounded-md'>
-                                <label for="password" className="sr-only">Password</label>
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="edad" className="sr-only"></label>
 
-                                <div className="relative">
-                                    <input
-                                        type="password"
-                                        className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                        placeholder="Enter password"
-                                        name='password'
-                                    />
-
-                                    <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4 text-gray-400"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Ingrese edad"
+                                                name='edad'
                                             />
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        </div>
+                                    </div>
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="fechaNacimiento" className="sr-only"></label>
+
+                                        <div className="relative">
+                                            <input
+                                                type="date"
+                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                                                placeholder="Ingrese Fecha de Nacimiento"
+                                                name='fechaNacimiento'
                                             />
-                                        </svg>
-                                    </span>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
 

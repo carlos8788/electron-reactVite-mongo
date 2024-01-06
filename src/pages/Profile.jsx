@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import ipcIndex from "../api/ipcIndex"
 import { Link } from "react-router-dom";
+import ipcConnect from "../api/ipcIndex";
 
 const Profile = () => {
 
@@ -25,7 +25,10 @@ const Profile = () => {
         )
     }
     useEffect(() => {
-        ipcIndex.getOSocials().then(setObraSocial).catch(error => console.error(error))
+        // ipcIndex.get('get-users').then(setObraSocial).catch(error => console.error(error))
+        ipcConnect.get('get-obraSocials').then(setObraSocial).catch(error => console.error(error))
+        ipcConnect.filterData('get-data-filter', 'nombre', 'maria').then(data => console.log(data))
+
     }, [])
 
 

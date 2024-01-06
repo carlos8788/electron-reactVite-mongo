@@ -22,7 +22,11 @@ const Users = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    ipcConnect.getUsers().then((users) => setUsers(users)).catch((error) => console.log(error));
+    ipcConnect.getUsers().then(
+        (data) => {
+            setUsers(data)
+            // console.log(users)
+        }).catch((error) => console.log(error));
 
     const deleteU = (id) => {
         setLoading(true);
@@ -89,13 +93,13 @@ const Users = () => {
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         {/* <img src={item.avatar} className="w-10 h-10 rounded-full" /> */}
                                         <div>
-                                            <span className="block text-gray-700 text-sm font-medium">{item.username}</span>
+                                            <span className="block text-gray-700 text-sm font-medium">{item.nombre} {item.apellido}</span>
                                             {/* <span className="block text-gray-700 text-xs">{item.email}</span> */}
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.email}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
                                     {/* <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td> */}
-                                    <td className="px-6 py-4 whitespace-nowrap">Javascript lvl 1</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.obraSocial.nombre} </td>
                                     <td className="text-right px-6 whitespace-nowrap">
                                         <a href="javascript:void()" onClick={() => console.log(item._id)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Edit
