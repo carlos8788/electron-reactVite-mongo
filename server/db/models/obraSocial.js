@@ -3,15 +3,18 @@ const { Schema, model } = require('mongoose');
 const obraSocialSchema = new Schema({
   telefono: {
     type: String,
-    required: true
   },
   nombre: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   direccion: {
     type: String,
-    required: true
+  },
+  padron: {
+    type: String,
+    default: 'Padrón A'
   }
 });
 
