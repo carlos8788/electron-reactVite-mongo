@@ -1,5 +1,5 @@
-import React from 'react'
-import { Sidebar } from './Sidebar';
+/* eslint-disable react/prop-types */
+import { Sidebar } from '../Components/Sidebar';
 
 const Layout = ({ children }) => {
     return (

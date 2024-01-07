@@ -8,7 +8,6 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
-console.log(__dirname)
 function createWindow() {
     // Crear la ventana del navegador.
 
@@ -31,7 +30,7 @@ function createWindow() {
     } else {
         // Cargar desde el servidor de desarrollo de Vite.
         mainWindow.loadURL('http://localhost:5173');
-        // mainWindow.webContents.openDevTools();
+        mainWindow.webContents.openDevTools('detach');
     }
 
     // Emitido cuando la ventana es cerrada.

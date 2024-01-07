@@ -1,10 +1,10 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './Components/Layout';
+import Layout from './pages/Layout';
 import Homepage from './Components/Homepage';
 import Form from './Components/Form';
-import Users from './Components/Users';
-import Profile from './pages/Profile';
+// import Users from './Components/Users';
+import ObrasSociales from './pages/ObrasSociales';
+import Users from './pages/Users';
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/form" element={<Form />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/obras-sociales" element={<ObrasSociales />} />
         </Routes>
       </Layout>
     </Router>

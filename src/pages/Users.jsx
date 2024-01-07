@@ -1,18 +1,48 @@
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom";
-import ipcConnect from "../api/ipcIndex";
+import { useState, useEffect } from 'react'
+import ipcConnect from '../ipcConnect';
+import { Link } from 'react-router-dom';
 
-const Profile = () => {
+const Users = () => {
 
-    const [obraSocial, setObraSocial] = useState([])
+    const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(5);
     const [isLoading, setLoading] = useState(false);
+
+
+    useEffect(() => {
+        ipcConnect.getUsers()
+            .then((allUsers) => setUsers(allUsers))
+            .catch((error) => console.log(error));
+    }, []);
+
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = obraSocial.slice(indexOfFirstUser, indexOfLastUser);
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    ipcConnect.getUsers().then(
+        (data) => {
+            setUsers(data)
+            // console.log(users)
+        }).catch((error) => console.log(error));
+
+    const deleteU = (id) => {
+        setLoading(true);
+
+        ipcConnect.deleteUser(id)
+            .then(result => {
+                console.log(result)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    // const updateU = (id) => ipcConnect.updateUser(id).then(result => console.log(result))
+
     const Spinner = () => {
         return (
             <div
@@ -24,20 +54,13 @@ const Profile = () => {
             </div>
         )
     }
-    useEffect(() => {
-        // ipcIndex.get('get-users').then(setObraSocial).catch(error => console.error(error))
-        ipcConnect.get('get-obraSocials').then(setObraSocial).catch(error => console.error(error))
-        ipcConnect.filterData('get-data-filter', 'nombre', 'maria').then(data => console.log(data))
-
-    }, [])
-
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
             <div className="items-start justify-between md:flex">
                 <div className="max-w-lg">
                     <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                        Obras Sociales
+                        Team members
                     </h3>
                     <p className="text-gray-600 mt-2">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -56,11 +79,11 @@ const Profile = () => {
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6">Nombre</th>
-                            <th className="py-3 px-6">Dirección</th>
+                            <th className="py-3 px-6">Username</th>
+                            <th className="py-3 px-6">Email</th>
                             {/* <th className="py-3 px-6">Number</th> */}
-                            <th className="py-3 px-6">Teléfono</th>
-                            <th className="py-3 px-6">Padrón</th>
+                            <th className="py-3 px-6">Course</th>
+                            <th className="py-3 px-6"></th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
@@ -70,15 +93,20 @@ const Profile = () => {
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         {/* <img src={item.avatar} className="w-10 h-10 rounded-full" /> */}
                                         <div>
-                                            <span className="block text-gray-700 text-sm font-medium">{item.nombre}</span>
+                                            <span className="block text-gray-700 text-sm font-medium">{item.nombre} {item.apellido}</span>
                                             {/* <span className="block text-gray-700 text-xs">{item.email}</span> */}
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.direccion}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
                                     {/* <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td> */}
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.telefono}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.obraSocial.nombre} </td>
                                     <td className="text-right px-6 whitespace-nowrap">
-                                        {item.padron}
+                                        <a onClick={() => console.log(item._id)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                            Edit
+                                        </a>
+                                        <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))
@@ -89,7 +117,7 @@ const Profile = () => {
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
-                {Array.from({ length: Math.ceil(obraSocial.length / usersPerPage) }, (_, i) => (
+                {Array.from({ length: Math.ceil(users.length / usersPerPage) }, (_, i) => (
                     <li key={i + 1}>
                         <a
                             onClick={() => paginate(i + 1)}
@@ -102,7 +130,8 @@ const Profile = () => {
                 ))}
             </ol>
         </div>
+
     )
 }
 
-export default Profile
+export default Users
