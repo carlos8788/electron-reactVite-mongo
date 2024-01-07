@@ -1,28 +1,40 @@
-const electron = require('electron');
+const { app, BrowserWindow, screen } = require('electron');
 const connectToDatabase = require('./db/connect');
 const setupUserIPC = require('./ipc/user');
 const path = require('path');
 const setupObraSocialIPC = require('./ipc/obraSocial');
 
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+
+try {
+    require('electron-reloader')(module);
+} catch { }
+
 
 let mainWindow;
 function createWindow() {
     // Crear la ventana del navegador.
+    const displays = screen.getAllDisplays();
+    let externalDisplay = null;
 
+    for (let i = 0; i < displays.length; i++) {
+        if (displays[i].bounds.x !== 0 || displays[i].bounds.y !== 0) {
+            externalDisplay = displays[i];
+            break;
+        }
+    }
     // setupUserIPC();
     mainWindow = new BrowserWindow({
         width: 1280,
         height: 720,
+        x: externalDisplay.bounds.x + 1, // Posición X en el monitor externo
+        y: externalDisplay.bounds.y + 1, // Posición Y en el monitor externo
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true, // Mantén activada la aislación de contexto
             // nodeIntegration: false, // No es necesario si contextIsolation está activado
         }
     });
-    setupUserIPC();
-    setupObraSocialIPC();
+
 
     if (app.isPackaged) {
         // Cargar la versión compilada de index.html en producción.
@@ -30,7 +42,7 @@ function createWindow() {
     } else {
         // Cargar desde el servidor de desarrollo de Vite.
         mainWindow.loadURL('http://localhost:5173');
-        // mainWindow.webContents.openDevTools('detach');
+        mainWindow.webContents.openDevTools('detach');
     }
 
     // Emitido cuando la ventana es cerrada.
@@ -69,6 +81,8 @@ app.on('activate', () => {
 // También puedes ponerlos en archivos separados y requerirlos aquí.
 app.whenReady()
     .then(() => {
+        setupUserIPC();
+        setupObraSocialIPC();
         connectToDatabase();
 
     })
