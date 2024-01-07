@@ -3,6 +3,7 @@ const connectToDatabase = require('./db/connect');
 const setupUserIPC = require('./ipc/user');
 const path = require('path');
 const setupObraSocialIPC = require('./ipc/obraSocial');
+const { readExcel } = require('./db/files/excel');
 
 
 try {
@@ -84,5 +85,5 @@ app.whenReady()
         setupUserIPC();
         setupObraSocialIPC();
         connectToDatabase();
-
+        
     })

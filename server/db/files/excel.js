@@ -3,14 +3,18 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-const readExcel = () => {
+const readExcel = (page = 0) => {
     const workbook = XLSX.readFile(process.env.DOC);
-    // console.log(workbook.SheetNames) // array de hojas
-    const sheetName = workbook.SheetNames[0];
+    if (!workbook.SheetNames[page]) page = 0;
+    const sheetName = workbook.SheetNames[page];
+    console.log(workbook.SheetNames)
     const sheet = workbook.Sheets[sheetName];
     // console.log(sheet) // data sin parsear
-    const data = XLSX.utils.sheet_to_json(sheet);
-    console.log(data);
+    return {
+        data: XLSX.utils.sheet_to_json(sheet),
+        pages: workbook.SheetNames
+    };
+
 }
 
 // writeBook()

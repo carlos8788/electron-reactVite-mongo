@@ -5,6 +5,7 @@ import Form from './Components/Form';
 // import Users from './Components/Users';
 import ObrasSociales from './pages/ObrasSociales';
 import Users from './pages/Users';
+import UsersExcel from './pages/UsersExcel';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/form" element={<Form />} />
           <Route path="/users" element={<Users />} />
           <Route path="/obras-sociales" element={<ObrasSociales />} />
+          <Route path="/users-excel" element={<UsersExcel />} />
         </Routes>
       </Layout>
     </Router>

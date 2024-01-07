@@ -1,6 +1,11 @@
-import React from 'react'
+import ipcConnect from "../api/ipcIndex";
 
 const Login = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(event.target.email.value)
+        ipcConnect.get('excel', event.target.email.value).then((data) => console.log(data))
+    }
     return (
 
         <div className="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
@@ -8,7 +13,7 @@ const Login = () => {
                 Login To Your Account
             </div>
             <div className="mt-8">
-                <form action="#" autoComplete="off">
+                <form onSubmit={handleSubmit} autoComplete="off">
                     <div className="flex flex-col mb-2">
                         <div className="flex relative ">
                             <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
@@ -17,7 +22,7 @@ const Login = () => {
                                     </path>
                                 </svg>
                             </span>
-                            <input type="text" id="sign-in-email" className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent" placeholder="Your email" />
+                            <input type="text" name='email' id="sign-in-email" className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent" placeholder="Your email" />
                         </div>
                     </div>
                     <div className="flex flex-col mb-6">

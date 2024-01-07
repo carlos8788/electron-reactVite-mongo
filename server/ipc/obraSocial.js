@@ -5,6 +5,7 @@ const setupObraSocialIPC = () => {
 
   ipcMain.handle('get-obraSocials', async (event) => {
     try {
+      
       const obraSocials = await ObraSocialController.getOSocials();
       return JSON.stringify(obraSocials);
     } catch (error) {

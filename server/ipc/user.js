@@ -1,5 +1,6 @@
 const { ipcMain } = require('electron');
 const UserController = require('../controller/user');
+const { readExcel } = require('../db/files/excel');
 
 const setupUserIPC = () => {
   console.log('setup')
@@ -62,5 +63,13 @@ const setupUserIPC = () => {
     }
   });
 };
+ipcMain.handle('excel', async (event, data=0) => {
+  try {
+    // console.log(event)
+    return JSON.stringify(readExcel(data));
+  } catch (error) {
+    throw JSON.stringify(new Error(error));
+  }
+});
 
 module.exports = setupUserIPC;
