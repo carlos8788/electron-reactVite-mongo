@@ -38,6 +38,14 @@ const ObraSocialController = {
             throw error;
         }
     },
+    findByField: async (field, value) => {
+
+        try {
+            return await obraSocial.findByField(field, value);
+        } catch (error) {
+            throw error;
+        }
+    }
 };
 
 module.exports = ObraSocialController;

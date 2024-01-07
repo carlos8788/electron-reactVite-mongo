@@ -45,6 +45,22 @@ class ObraSocialDao {
             throw new Error(error.message);
         }
     }
+
+    async findByField(field, value) {
+        try {
+            const query = {};
+            query[field] = { $regex: new RegExp(value, 'i') }; // Insensible a mayúsculas y minúsculas
+            console.log(`Buscando en el campo '${field}' por el valor: ${value}`);
+            console.log('Consulta:', query);
+
+            const result = await this.obraSocialModel.find(query);
+            console.log('Resultados encontrados:', result.length);
+            return result;
+        } catch (error) {
+            console.log(error)
+            throw new Error(error.message)
+        }
+    }
 }
 
 module.exports = ObraSocialDao;

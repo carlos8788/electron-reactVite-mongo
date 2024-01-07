@@ -30,7 +30,7 @@ function createWindow() {
     } else {
         // Cargar desde el servidor de desarrollo de Vite.
         mainWindow.loadURL('http://localhost:5173');
-        mainWindow.webContents.openDevTools('detach');
+        // mainWindow.webContents.openDevTools('detach');
     }
 
     // Emitido cuando la ventana es cerrada.

@@ -23,54 +23,56 @@ const ObrasSociales = () => {
                 setObraSocial(data)
             })
             .catch(error => console.error(error))
-        ipcConnect.filterData('get-data-filter', 'nombre', 'maria').then(data => console.log(data))
+
 
     }, [])
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(event.target.search.value)
+        // console.log(event.target.search.value)
+        ipcConnect.filterData('get-obraSocial-filter', 'nombre', event.target.search.value).then(setObraSocial)
     }
 
     return (
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-            <Search placeholder={'Buscar una obra social'} handleSubmit={handleSubmit}/>
+        <div className="w-screen-xl mx-auto px-4 md:px-8">
+            <Search placeholder={'Buscar una obra social'} handleSubmit={handleSubmit} />
 
             <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto my-auto">
                 {isLoading
                     ? <Loader />
-                    : <table className="w-full table-auto  text-left">
-                        <thead className="bg-blue-200 text-gray-600 font-medium border-b">
-                            <tr>
-                                <th className="py-3 px-6">Nombre</th>
-                                <th className="py-3 px-6">Dirección</th>
-                                {/* <th className="py-3 px-6">Number</th> */}
-                                <th className="py-3 px-6">Teléfono</th>
-                                <th className="py-3 px-6">Padrón</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-gray-600 divide-y">
-                            {
-                                currentObrasSociales.map((item, idx) => (
-                                    <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
-                                        <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                                            {/* <img src={item.avatar} className="w-10 h-10 rounded-full" /> */}
-                                            <div>
-                                                <span className="block text-gray-700 text-sm font-medium">{item.nombre}</span>
-                                                {/* <span className="block text-gray-700 text-xs">{item.email}</span> */}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{item.direccion}</td>
-                                        {/* <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td> */}
-                                        <td className="px-6 py-4 whitespace-nowrap">{item.telefono}</td>
-                                        <td className="text-right px-6 whitespace-nowrap">
-                                            {item.padron}
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>}
+                    : (currentObrasSociales.length === 0) ? <h2>No se encontraron coincidencias</h2>
+                        : <table className="w-full table-auto  text-left">
+                            <thead className="bg-blue-200 text-gray-600 font-medium border-b">
+                                <tr>
+                                    <th className="py-3 px-6">Nombre</th>
+                                    <th className="py-3 px-6">Dirección</th>
+                                    {/* <th className="py-3 px-6">Number</th> */}
+                                    <th className="py-3 px-6">Teléfono</th>
+                                    <th className="py-3 px-6">Padrón</th>
+                                </tr>
+                            </thead>
+                            <tbody className="text-gray-600 divide-y">
+                                {
+                                    currentObrasSociales.map((item, idx) => (
+                                        <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
+                                            <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                                                {/* <img src={item.avatar} className="w-10 h-10 rounded-full" /> */}
+                                                <div>
+                                                    <span className="block text-gray-700 text-sm font-medium">{item.nombre}</span>
+                                                    {/* <span className="block text-gray-700 text-xs">{item.email}</span> */}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">{item.direccion}</td>
+                                            {/* <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td> */}
+                                            <td className="px-6 py-4 whitespace-nowrap">{item.telefono}</td>
+                                            <td className="text-right px-6 whitespace-nowrap">
+                                                {item.padron}
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>}
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">

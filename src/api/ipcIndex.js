@@ -42,8 +42,9 @@ const ipcConnect = {
         throw error;
       });
   },
-  filterData: (channel, filter, data) => {
-    return window.electron.ipcRenderer.invoke(channel, filter, data)
+  filterData: (channel, filter, value) => {
+    console.log(channel, filter, value)
+    return window.electron.ipcRenderer.invoke(channel, {filter, value})
       .then(response => JSON.parse(response))
       .catch(error => {
         console.error('Error recibido del proceso principal:', error);

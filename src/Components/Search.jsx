@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/prop-types */
 
-import PropTypes from 'prop-types';
 const Search = ({ placeholder, handleSubmit }) => {
     
     return (
@@ -22,8 +21,8 @@ const Search = ({ placeholder, handleSubmit }) => {
                         <path
                             stroke="currentColor"
                             strokeLinecap="round"
-                            strokLinejoin="round"
-                            strokWidth="2"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                         />
                     </svg>
@@ -44,11 +43,6 @@ const Search = ({ placeholder, handleSubmit }) => {
         </form>
 
     )
-}
-
-Search.PropTypes = {
-    placeholder: PropTypes.string,
-    handleSubmit: PropTypes.func
 }
 
 export default Search
