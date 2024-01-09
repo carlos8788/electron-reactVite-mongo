@@ -1,4 +1,5 @@
 import Login from './Login'
+import Modal from './Modal'
 
 const Homepage = () => {
     const stats = [
@@ -18,9 +19,11 @@ const Homepage = () => {
     ]
     return (
         <section className="py-14 font-medium text-gray-600">
+            
             <div className="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
                 <div className="sm:hidden lg:block lg:max-w-xl">
-                    <Login/>
+                    <Login />
+                    
                 </div>
                 <div className="mt-6 gap-12 sm:mt-0 md:flex lg:block">
                     <div className="max-w-2xl">
@@ -45,6 +48,7 @@ const Homepage = () => {
                     </div>
                 </div>
             </div>
+            
         </section>
     )
 }

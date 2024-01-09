@@ -12,6 +12,8 @@
     "start": "concurrently \"npm run dev\" \"wait-on tcp:5173 && electron .\""
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
     "concurrently": "^8.2.2",
     "dotenv": "^16.3.1",
     "electron": "^28.1.0",

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import ipcConnect from '../api/ipcIndex'
-import Search from '../Components/Search';
 import Loader from '../Components/Loader';
+import Modal from '../Components/Modal';
 
 const UsersExcel = () => {
     const [users, setUsers] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(10);
+    const [usersPerPage] = useState(12);
     const [isLoading, setLoading] = useState(false);
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -23,11 +23,6 @@ const UsersExcel = () => {
 
     }, [])
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // console.log(event.target.search.value)
-        ipcConnect.filterData('get-obraSocial-filter', 'nombre', event.target.search.value).then(setUsers)
-    }
 
     const toCapitalize = (str) => {
         if (!str) return '';
@@ -41,12 +36,19 @@ const UsersExcel = () => {
         if (hour.toString().length === 2) return `${hour}.00`.replace('.', ':')
 
     }
-    
+
 
     return (
         <div className="w-screen-xl mx-auto px-4 md:px-8">
-            <Search placeholder={'Buscar un paciente'} handleSubmit={handleSubmit} />
-
+            <div className="flex gap-4">
+                
+                <button type="submit" className=" py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                    Export to DB
+                </button>
+                <button type="submit" className="py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                    Export to DB
+                </button>
+            </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto my-auto">
                 {isLoading
                     ? <Loader />
