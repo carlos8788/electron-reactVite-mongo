@@ -29,7 +29,6 @@ const userSchema = new Schema({
   },
   edad: {
     type: Number,
-    required: true,
   },
   fechaNacimiento: {
     type: String,

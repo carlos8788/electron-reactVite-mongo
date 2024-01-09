@@ -1,11 +1,11 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment,  } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Modal({data, open=true, closeModal}) {
-
-    console.log(closeModal)
-    console.log(open)
-    console.log(data)
+    const toNavigate = useNavigate()
+    
+    const registerForm = () => toNavigate('/form', {state: data})
 
     return (
         <>
@@ -48,7 +48,7 @@ export default function Modal({data, open=true, closeModal}) {
                                         as="h3"
                                         className="text-lg font-medium leading-6 text-gray-900"
                                     >
-                                        Payment successful
+                                        Paciente
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500 flex flex-col">
@@ -59,13 +59,20 @@ export default function Modal({data, open=true, closeModal}) {
                                         </p>
                                     </div>
 
-                                    <div className="mt-4">
+                                    <div className="mt-4 flex justify-between">
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-red-500 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                                            onClick={closeModal}
+                                        >
+                                            Cerrar
+                                        </button>
                                         <button
                                             type="button"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            onClick={closeModal}
+                                            onClick={registerForm}
                                         >
-                                            Got it, thanks!
+                                            Agregar paciente
                                         </button>
                                     </div>
                                 </Dialog.Panel>

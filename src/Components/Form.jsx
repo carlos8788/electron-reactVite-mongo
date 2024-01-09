@@ -1,11 +1,51 @@
 
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
+import { useLocation } from 'react-router-dom';
 
 
 const Form = () => {
+    const emptyForm = {
+        nombre: '',
+        apellido: '',
+        observaciones: '',
+        telefono: '',
+        dni: '',
+        edad: '',
+        // otros campos según sea necesario
+    }
     const [obrasSociales, setObrasSociales] = useState([])
     const formRef = useRef(null)
+    const [formData, setFormData] = useState(emptyForm);
+
+
+    const location = useLocation();
+    const initialData = location.state || {};
+
+    const user = {
+        nombre: initialData.Nombre || '',
+        apellido: initialData.Apellido || '',
+        observaciones: initialData.Observaciones || '',
+        telefono: initialData.Telefono || '',
+        dni: initialData.DNI || '',
+        edad: initialData.Edad || '',
+    }
+
+    useEffect(() => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            ...user
+        }));
+    }, [initialData]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevUser => ({
+            ...prevUser,
+            [name]: value
+        }));
+    };
+
 
     useEffect(() => {
         ipcConnect.get('get-obraSocials')
@@ -31,6 +71,7 @@ const Form = () => {
         const formData = new FormData(e.target);
         const userData = Object.fromEntries(formData.entries());
         registerUser(userData)
+        setFormData(emptyForm)
 
     };
 
@@ -54,6 +95,8 @@ const Form = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Ingrese nombre"
                                                 name='nombre'
+                                                value={formData?.nombre}
+                                                onChange={handleInputChange}
                                             />
 
                                         </div>
@@ -67,6 +110,8 @@ const Form = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Ingrese apellido"
                                                 name='apellido'
+                                                value={formData?.apellido}
+                                                onChange={handleInputChange}
                                             />
 
 
@@ -82,6 +127,8 @@ const Form = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Observaciones breve"
                                                 name='observaciones'
+                                                value={formData?.observaciones}
+                                                onChange={handleInputChange}
                                             />
 
 
@@ -97,6 +144,8 @@ const Form = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Ingrese telefono"
                                                 name='telefono'
+                                                value={formData?.telefono}
+                                                onChange={handleInputChange}
                                             />
                                         </div>
                                     </div>
@@ -125,6 +174,8 @@ const Form = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Ingrese dni"
                                                 name='dni'
+                                                value={formData?.dni}
+                                                onChange={handleInputChange}
                                             />
                                         </div>
                                     </div>
@@ -138,6 +189,8 @@ const Form = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Ingrese edad"
                                                 name='edad'
+                                                value={formData?.edad}
+                                                onChange={handleInputChange}
                                             />
                                         </div>
                                     </div>
@@ -162,7 +215,7 @@ const Form = () => {
                                 type="submit"
                                 className="block w-full rounded-lg bg-green-600 px-5 py-3 text-sm font-medium text-white"
                             >
-                                Sign up
+                                Registrar paciente
                             </button>
 
                         </form>
