@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import ipcConnect from '../ipcConnect';
-import { Link } from 'react-router-dom';
+
+// import { Link } from 'react-router-dom';
+import Search from '../Components/Search';
+import ipcConnect from '../api/ipcIndex';
 
 const Users = () => {
 
@@ -11,7 +13,7 @@ const Users = () => {
 
 
     useEffect(() => {
-        ipcConnect.getUsers()
+        ipcConnect.get('get-users')
             .then((allUsers) => setUsers(allUsers))
             .catch((error) => console.log(error));
     }, []);
@@ -22,19 +24,20 @@ const Users = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    ipcConnect.getUsers().then(
-        (data) => {
-            setUsers(data)
-            // console.log(users)
-        }).catch((error) => console.log(error));
+    // ipcConnect.get('get-users').then(
+    //     (data) => {
+    //         setUsers(data)
+    //         // console.log(users)
+    //     }).catch((error) => console.log(error));
 
     const deleteU = (id) => {
         setLoading(true);
 
-        ipcConnect.deleteUser(id)
+        ipcConnect.delete('delete-user',id)
             .then(result => {
                 console.log(result)
                 setLoading(false)
+                setUsers(result);
             })
             .catch(error => {
                 console.log(error)
@@ -55,26 +58,21 @@ const Users = () => {
         )
     }
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // console.log(event.target.search.value)
+        ipcConnect.filterData('get-data-filter', 'dni', event.target.search.value).then(data => {
+            console.log(data)
+            setUsers(data)
+        })
+        
+    }
+
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-            <div className="items-start justify-between md:flex">
-                <div className="max-w-lg">
-                    <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-                        Team members
-                    </h3>
-                    <p className="text-gray-600 mt-2">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    </p>
-                </div>
-                <div className="mt-3 md:mt-0">
-                    <Link
-                        to={'/form'}
-                        className="inline-block px-4 py-2 text-white duration-150 font-medium bg-green-600 rounded-lg hover:bg-green-700 active:bg-green-800 md:text-sm"
-                    >
-                        Add member
-                    </Link>
-                </div>
-            </div>
+
+            <Search placeholder={'Busque un usuario por DNI'} handleSubmit={handleSubmit}/>
+
             <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">

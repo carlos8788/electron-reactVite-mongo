@@ -53,11 +53,11 @@ const setupUserIPC = () => {
     }
   });
 
-  ipcMain.handle('get-data-filter', async (event, field, value) => {
-    console.log('handler', field, value)
+  ipcMain.handle('get-data-filter', async (event, data) => {
+    console.log(data, 'handle', data.filter, data.value);
     try {
-      const data = await UserController.findByField(field, value);
-      return JSON.stringify(data);
+      const result = await UserController.findByField(data.filter, data.value);
+      return JSON.stringify(result);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }

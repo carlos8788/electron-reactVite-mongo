@@ -23,7 +23,7 @@ const userSchema = new Schema({
     required: true
   },
   dni: {
-    type: Number,
+    type: String,
     required: true,
     unique: true
   },

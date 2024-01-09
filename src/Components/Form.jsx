@@ -17,10 +17,15 @@ const Form = () => {
     const [obrasSociales, setObrasSociales] = useState([])
     const formRef = useRef(null)
     const [formData, setFormData] = useState(emptyForm);
-
+    const [initialData, setInitialData] = useState({})
 
     const location = useLocation();
-    const initialData = location.state || {};
+    useEffect(() => {
+        // Actualiza initialData con los datos de location.state
+        if (location.state) {
+            setInitialData(location.state);
+        }
+    }, [location.state]);
 
     const user = {
         nombre: initialData.Nombre || '',
