@@ -26,7 +26,7 @@ const UserController = {
         }
     },
     createManyUsers: async (users = []) => {
-        console.log(users)
+        
         users.forEach(async data => {
             try {
                 await user.create(data);

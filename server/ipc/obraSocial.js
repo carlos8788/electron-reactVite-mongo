@@ -53,9 +53,8 @@ const setupObraSocialIPC = () => {
   });
 
   ipcMain.handle('get-obraSocial-filter', async (event, data) => {
-    console.log(data, 'handle', data.filter, data.value);
-    try {
 
+    try {
       const result = await ObraSocialController.findByField(data.filter, data.value);
       return JSON.stringify(result);
     } catch (error) {
@@ -64,11 +63,9 @@ const setupObraSocialIPC = () => {
   });
 
   ipcMain.handle('get-obraSocial-byName', async (event, data) => {
-    console.log(data, 'handle getOneByName')
     try {
 
       const result = await ObraSocialController.getOneOSocial(data.toUpperCase());
-      // console.log(result)
       return JSON.stringify(result);
     } catch (error) {
       throw JSON.stringify(new Error(error));

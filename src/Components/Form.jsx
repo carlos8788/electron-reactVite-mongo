@@ -21,11 +21,7 @@ const Form = () => {
 
     const location = useLocation();
     useEffect(() => {
-        if (location.state) {
-            console.log(location.state)
-            setInitialData(location.state);
-
-        }
+        if (location.state) setInitialData(location.state);
     }, [location.state]);
 
     const user = {

@@ -6,6 +6,7 @@ import Form from './Components/Form';
 import ObrasSociales from './pages/ObrasSociales';
 import Users from './pages/Users';
 import UsersExcel from './pages/UsersExcel';
+import CreateTurno from './pages/CreateTurno';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/obras-sociales" element={<ObrasSociales />} />
           <Route path="/users-excel" element={<UsersExcel />} />
+          <Route path="/crear-turno" element={<CreateTurno />} />
         </Routes>
       </Layout>
     </Router>
