@@ -35,12 +35,13 @@ const setupUserIPC = () => {
   });
 
   ipcMain.handle('create-users', async (event, dataString) => {
-    console.log(dataString)
+    console.log(dataString, 'dataString');
     try {
-      const usersData = JSON.parse(userDadataStringtaString);
+      const usersData = JSON.parse(dataString);
       const users = await UserController.createManyUsers(usersData);
       return JSON.stringify(users);
     } catch (error) {
+      console.log(error)
       throw JSON.stringify(new Error(error));
     }
   });
@@ -48,7 +49,7 @@ const setupUserIPC = () => {
   ipcMain.handle('update-user', async (event, data) => {
     try {
       const userData = JSON.parse(data);
-      const {id, ...userInfo} = userData
+      const { id, ...userInfo } = userData
       const user = await UserController.updateUser(id, userInfo);
       return JSON.stringify(user);
     } catch (error) {
@@ -69,13 +70,15 @@ const setupUserIPC = () => {
     console.log(data, 'handle', data.filter, data.value);
     try {
       const result = await UserController.findByField(data.filter, data.value);
+      console.log(result)
       return JSON.stringify(result);
     } catch (error) {
+      console.log(error);
       throw JSON.stringify(new Error(error));
     }
   });
 };
-ipcMain.handle('excel', async (event, data=0) => {
+ipcMain.handle('excel', async (event, data = 0) => {
   try {
     // console.log(event)
     return JSON.stringify(readExcel(data));

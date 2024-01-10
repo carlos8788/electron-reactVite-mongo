@@ -26,7 +26,7 @@ const UserController = {
         }
     },
     createManyUsers: async (users = []) => {
-
+        console.log(users)
         users.forEach(async data => {
             try {
                 await user.create(data);
@@ -53,10 +53,9 @@ const UserController = {
         }
     },
     findByField: async (field, value) => {
+        console.log(field, value);
         try {
-            let query = {}
-            query[field] = value;
-            return await user.findByField(query);
+            return await user.findByField(field, value);
         } catch (error) {
             throw error;
         }

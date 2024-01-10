@@ -3,6 +3,8 @@ import ipcConnect from '../api/ipcIndex'
 import Loader from '../Components/Loader';
 import Modal from '../Components/Modal';
 import DropDown from '../Components/DropDown';
+import { exportToDB } from '../helpers/createManyUsers';
+import { toCapitalize } from '../helpers/capitalizeStr';
 
 const UsersExcel = () => {
     const [users, setUsers] = useState([])
@@ -12,6 +14,7 @@ const UsersExcel = () => {
     const [days, setDays] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [dayView, setDayView] = useState(0);
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -26,7 +29,11 @@ const UsersExcel = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    const selectDay = (day) => ipcConnect.get('excel', day).then(data => setUsers(data.data))
+    const selectDay = (day) => {
+        setDayView(day);
+        ipcConnect.get('excel', day)
+            .then(data => setUsers(data.data))
+    }
 
     useEffect(() => {
         ipcConnect.get('excel')
@@ -41,10 +48,7 @@ const UsersExcel = () => {
 
     const prepareData = (data) => data.map(item => `${item.substring(0, 2)}/${item.substring(2, 4)}/2024`)
 
-    const toCapitalize = (str) => {
-        if (!str) return '';
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    }
+
 
     const toCompleteHR = (hour) => {
         if (!hour) return 'SOBRETURNO';
@@ -55,17 +59,19 @@ const UsersExcel = () => {
         if (hour.toString().length === 1) return `0${hour}.00`.replace('.', ':')
     }
 
-    // const exportUserToDB = () => {
-
-    // }
+    const exportUserToDB = async () => {
+        const usersToDB = await exportToDB(dayView)
+        const result = await ipcConnect.createManyUsers(usersToDB)
+        // console.log(result)
+    }
 
     return (
         <div className="w-screen-xl mx-auto px-4 md:px-8">
             <div className="flex gap-4">
 
-                <button 
-                // onClick={exportUserToDB}
-                className="py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                <button
+                    onClick={exportUserToDB}
+                    className="py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 >
                     Export to DB
                 </button>
@@ -129,11 +135,11 @@ const UsersExcel = () => {
                         ${currentPage === i + 1 ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
                         >
                             {i + 1}
-                        </a>                        
+                        </a>
                     </li>
                 ))}
             </ol>
-        </div>
+        </div >
     )
 }
 

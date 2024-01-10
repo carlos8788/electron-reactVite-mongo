@@ -27,6 +27,7 @@ const ipcConnect = {
       });
   },
   createManyUsers: (data) => {
+    console.log(data)
     return window.electron.ipcRenderer.invoke('create-users', JSON.stringify(data))
       .then(response => {
         console.log('Respuesta del proceso principal:', response);

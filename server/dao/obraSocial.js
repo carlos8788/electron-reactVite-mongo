@@ -64,6 +64,8 @@ class ObraSocialDao {
 
     async getByObraSocialname(obraSocialname) {
         try {
+            console.log('first obraSocial', obraSocialname)
+            console.log(await this.obraSocialModel.findOne({nombre: obraSocialname.toUpperCase()}))
             return await this.obraSocialModel.findOne({nombre: obraSocialname})
         } catch (error) {
             console.log(error)

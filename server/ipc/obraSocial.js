@@ -5,7 +5,7 @@ const setupObraSocialIPC = () => {
 
   ipcMain.handle('get-obraSocials', async (event) => {
     try {
-      
+
       const obraSocials = await ObraSocialController.getOSocials();
       return JSON.stringify(obraSocials);
     } catch (error) {
@@ -64,14 +64,15 @@ const setupObraSocialIPC = () => {
   });
 
   ipcMain.handle('get-obraSocial-byName', async (event, data) => {
-    // console.log(data, 'handle', data.filter, data.value);
-    // try {
+    console.log(data, 'handle getOneByName')
+    try {
 
-      const result = await ObraSocialController.getOneOSocial(data);
+      const result = await ObraSocialController.getOneOSocial(data.toUpperCase());
+      // console.log(result)
       return JSON.stringify(result);
-    // } catch (error) {
-      // throw JSON.stringify(new Error(error));
-    // }
+    } catch (error) {
+      throw JSON.stringify(new Error(error));
+    }
   });
 
 };

@@ -1,5 +1,5 @@
 
-import { exportToDB } from '../helpers/createManyUsers'
+
 import Login from './Login'
 
 const Homepage = () => {
@@ -17,10 +17,9 @@ const Homepage = () => {
             title: "Lunes a Sábados"
         },
     ]
-    exportToDB(0)
     return (
         <section className="py-14 font-medium text-gray-600">
-            
+
             <div className="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
                 <div className="sm:hidden lg:block lg:max-w-xl">
                     <Login />
@@ -48,7 +47,7 @@ const Homepage = () => {
                     </div>
                 </div>
             </div>
-            
+
         </section>
     )
 }

@@ -10,7 +10,7 @@ const readExcel = (page = 0) => {
         const sheetName = workbook.SheetNames[page];
         const sheet = workbook.Sheets[sheetName];
         const parseData = XLSX.utils.sheet_to_json(sheet).map(data => {
-            if(data.obraSocial === 'ips') data.obraSocial = 'IPSS'
+            if(data.obraSocial === 'ips') data.obraSocial = 'IPS'
             data.dni = (data.dni?.toString().match(/\d+/g) || []).join('');         
 
             return {

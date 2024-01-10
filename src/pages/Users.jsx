@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Search from '../Components/Search';
 import ipcConnect from '../api/ipcIndex';
+import { toCapitalize } from '../helpers/capitalizeStr';
 
 const Users = () => {
 
@@ -80,7 +81,7 @@ const Users = () => {
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         <div>
-                                            <span className="block text-gray-700 text-sm font-medium">{item.nombre} {item.apellido}</span>
+                                            <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item.nombre)} {toCapitalize(item.apellido)}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
