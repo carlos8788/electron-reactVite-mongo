@@ -12,7 +12,6 @@ const Form = () => {
         telefono: '',
         dni: '',
         edad: '',
-        // otros campos según sea necesario
     }
     const [obrasSociales, setObrasSociales] = useState([])
     const formRef = useRef(null)
@@ -21,7 +20,6 @@ const Form = () => {
 
     const location = useLocation();
     useEffect(() => {
-        // Actualiza initialData con los datos de location.state
         if (location.state) {
             setInitialData(location.state);
         }
@@ -60,10 +58,8 @@ const Form = () => {
     }, [])
 
     const registerUser = (formData) => {
-        // console.log(formData)
         ipcConnect.create('create-user', formData)
-            .then(response => {
-                console.log('Usuario creado:', response);
+            .then(() => {
                 formRef.current.reset();
             })
             .catch(error => {
@@ -86,7 +82,6 @@ const Form = () => {
                 <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-lg">
                         <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Registro</h1>
-
                         <form onSubmit={handleSubmit} ref={formRef} className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200">
                             <p className="text-center text-lg font-medium">Registre un paciente</p>
                             <div className="flex gap-x-10">
@@ -103,7 +98,6 @@ const Form = () => {
                                                 value={formData?.nombre}
                                                 onChange={handleInputChange}
                                             />
-
                                         </div>
                                     </div>
                                     <div className='bg-slate-100 rounded-md'>
@@ -118,8 +112,6 @@ const Form = () => {
                                                 value={formData?.apellido}
                                                 onChange={handleInputChange}
                                             />
-
-
                                         </div>
                                     </div>
 
@@ -135,8 +127,6 @@ const Form = () => {
                                                 value={formData?.observaciones}
                                                 onChange={handleInputChange}
                                             />
-
-
                                         </div>
                                     </div>
 
@@ -169,7 +159,6 @@ const Form = () => {
                                                     )
                                             }
                                         </select>
-
                                     </div>
                                     <div className='bg-slate-100 rounded-md'>
                                         <label htmlFor="dni" className="sr-only"></label>
@@ -211,11 +200,8 @@ const Form = () => {
                                             />
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
-
                             <button
                                 type="submit"
                                 className="block w-full rounded-lg bg-green-600 px-5 py-3 text-sm font-medium text-white"

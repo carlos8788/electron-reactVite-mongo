@@ -9,15 +9,6 @@ export default function Modal({data, open=true, closeModal}) {
 
     return (
         <>
-            {/* <button
-                type="button"
-                onClick={openModal}
-                className={styles?styles:"rounded-md bg-black/20 px-4 py-2 text-sm font-medium text-white hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75"}
-            >
-                {text}
-            </button> */}
-
-
             <Transition appear show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={closeModal}>
                     <Transition.Child

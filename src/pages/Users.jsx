@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-
-// import { Link } from 'react-router-dom';
 import Search from '../Components/Search';
 import ipcConnect from '../api/ipcIndex';
 
@@ -24,11 +22,6 @@ const Users = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    // ipcConnect.get('get-users').then(
-    //     (data) => {
-    //         setUsers(data)
-    //         // console.log(users)
-    //     }).catch((error) => console.log(error));
 
     const deleteU = (id) => {
         setLoading(true);
@@ -60,9 +53,7 @@ const Users = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // console.log(event.target.search.value)
         ipcConnect.filterData('get-data-filter', 'dni', event.target.search.value).then(data => {
-            console.log(data)
             setUsers(data)
         })
         
@@ -79,7 +70,6 @@ const Users = () => {
                         <tr>
                             <th className="py-3 px-6">Username</th>
                             <th className="py-3 px-6">Email</th>
-                            {/* <th className="py-3 px-6">Number</th> */}
                             <th className="py-3 px-6">Course</th>
                             <th className="py-3 px-6"></th>
                         </tr>
@@ -89,14 +79,11 @@ const Users = () => {
                             currentUsers.map((item, idx) => (
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                                        {/* <img src={item.avatar} className="w-10 h-10 rounded-full" /> */}
                                         <div>
                                             <span className="block text-gray-700 text-sm font-medium">{item.nombre} {item.apellido}</span>
-                                            {/* <span className="block text-gray-700 text-xs">{item.email}</span> */}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
-                                    {/* <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td> */}
                                     <td className="px-6 py-4 whitespace-nowrap">{item.obraSocial.nombre} </td>
                                     <td className="text-right px-6 whitespace-nowrap">
                                         <a onClick={() => console.log(item._id)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg">
@@ -109,7 +96,6 @@ const Users = () => {
                                 </tr>
                             ))
                         }
-                        {isLoading && <Spinner />}
                     </tbody>
                 </table>
             </div>

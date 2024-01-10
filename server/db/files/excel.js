@@ -4,20 +4,23 @@ dotenv.config();
 
 
 const readExcel = (page = 0) => {
-    const workbook = XLSX.readFile(process.env.DOC);
-    if (!workbook.SheetNames[page]) page = 0;
-    const sheetName = workbook.SheetNames[page];
-    console.log(workbook.SheetNames)
-    const sheet = workbook.Sheets[sheetName];
-    // console.log(sheet) // data sin parsear
-    return {
-        data: XLSX.utils.sheet_to_json(sheet),
-        pages: workbook.SheetNames
-    };
+    try {
+        const workbook = XLSX.readFile(process.env.DOC);
+        if (!workbook.SheetNames[page]) page = 0;
+        const sheetName = workbook.SheetNames[page];
+        const sheet = workbook.Sheets[sheetName];
+        return {
+            data: XLSX.utils.sheet_to_json(sheet),
+            pages: workbook.SheetNames
+        };
+    } catch (error) {
+        console.log(error)
+    }
+
 
 }
 
-// writeBook()
+
 
 const writeBook = () => {
 
