@@ -59,7 +59,10 @@ const UsersExcel = () => {
         <div className="w-screen-xl mx-auto px-4 md:px-8">
             <div className="flex gap-4">
 
-                <button type="submit" className="py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                <button 
+                onClick={exportUserToDB}
+                className="py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                >
                     Export to DB
                 </button>
                 <DropDown data={days} name={'Fechas'} action={selectDay} />
@@ -86,18 +89,18 @@ const UsersExcel = () => {
 
                                             <td className="flex items-center gap-x-3 py-1 px-6 whitespace-nowrap">
                                                 <div>
-                                                    <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item.Nombre)}</span>
+                                                    <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item.nombre)}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-1 whitespace-nowrap ">
                                                 <span className="block text-gray-700 text-sm font-medium">
-                                                    {toCapitalize(item.Apellido)}
+                                                    {toCapitalize(item.apellido)}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-1 whitespace-nowrap">{toCompleteHR(item.Hora)}</td>
-                                            <td className="px-6 py-1 whitespace-nowrap">{item.Observaciones}</td>
+                                            <td className="px-6 py-1 whitespace-nowrap">{toCompleteHR(item.hora)}</td>
+                                            <td className="px-6 py-1 whitespace-nowrap">{item.observaciones}</td>
                                             <td className="text-right px-6 py-1 whitespace-nowrap">
-                                                {item.Telefono}
+                                                {item.telefono}
                                             </td>
                                             <td className="text-right px-6 py-1 whitespace-nowrap">
                                                 <button
@@ -122,7 +125,7 @@ const UsersExcel = () => {
                         ${currentPage === i + 1 ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
                         >
                             {i + 1}
-                        </a>
+                        </a>                        
                     </li>
                 ))}
             </ol>

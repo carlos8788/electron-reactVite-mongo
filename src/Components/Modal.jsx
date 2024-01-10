@@ -43,10 +43,10 @@ export default function Modal({data, open=true, closeModal}) {
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500 flex flex-col">
-                                            <span>Nombre: {data.Nombre}</span>
-                                            <span>Apellido: {data.Apellido}</span>
-                                            <span>DNI: {data.DNI}</span>
-                                            <span>Observaciones: {data.Observaciones}</span>
+                                            <span>Nombre: {data.nombre}</span>
+                                            <span>Apellido: {data.apellido}</span>
+                                            <span>DNI: {data.dni}</span>
+                                            <span>Observaciones: {data.observaciones}</span>
                                         </p>
                                     </div>
 

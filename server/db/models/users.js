@@ -19,8 +19,8 @@ const userSchema = new Schema({
   },
   obraSocial: {
     type: Schema.Types.ObjectId || undefined,
-    ref: 'ObraSocial', // Esto debe coincidir con el nombre que le diste al modelo de obra social
-    required: true
+    ref: 'ObraSocial', 
+    required: true,
   },
   dni: {
     type: String,
@@ -28,7 +28,7 @@ const userSchema = new Schema({
     unique: true
   },
   edad: {
-    type: Number,
+    type: String,
   },
   fechaNacimiento: {
     type: String,

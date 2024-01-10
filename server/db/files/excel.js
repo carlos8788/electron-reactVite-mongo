@@ -9,17 +9,32 @@ const readExcel = (page = 0) => {
         if (!workbook.SheetNames[page]) page = 0;
         const sheetName = workbook.SheetNames[page];
         const sheet = workbook.Sheets[sheetName];
+        const parseData = XLSX.utils.sheet_to_json(sheet).map(data => {
+            if(data.obraSocial === 'ips') data.obraSocial = 'IPSS'
+            data.dni = (data.dni?.toString().match(/\d+/g) || []).join('');         
+
+            return {
+                nombre: data.nombre,
+                apellido: data.apellido,
+                hora: data.hora,
+                observaciones: data.observaciones,
+                telefono: data.telefono,
+                obraSocial: data.obraSocial,
+                dni: data.dni,
+                edad: data.edad
+            }
+        })
         return {
-            data: XLSX.utils.sheet_to_json(sheet),
+            data: parseData,
             pages: workbook.SheetNames
         };
     } catch (error) {
         console.log(error)
+        throw new Error(error)
     }
 
 
 }
-
 
 
 const writeBook = () => {

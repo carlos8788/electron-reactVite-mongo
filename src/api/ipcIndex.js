@@ -1,6 +1,6 @@
 const ipcConnect = {
-  get: (channel, data) => {
-    return window.electron.ipcRenderer.invoke(channel, data)
+  get: (channel) => {
+    return window.electron.ipcRenderer.invoke(channel)
       .then(response => JSON.parse(response))
       .catch(error => {
         console.error('Error recibido del proceso principal:', error);
@@ -17,6 +17,17 @@ const ipcConnect = {
   },
   create: (channel, data) => {
     return window.electron.ipcRenderer.invoke(channel, JSON.stringify(data))
+      .then(response => {
+        console.log('Respuesta del proceso principal:', response);
+        return JSON.parse(response);
+      })
+      .catch(error => {
+        console.error('Error recibido del proceso principal:', error);
+        throw error;
+      });
+  },
+  createManyUsers: (data) => {
+    return window.electron.ipcRenderer.invoke('create-users', JSON.stringify(data))
       .then(response => {
         console.log('Respuesta del proceso principal:', response);
         return JSON.parse(response);

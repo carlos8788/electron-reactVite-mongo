@@ -1,3 +1,5 @@
+
+import { exportToDB } from '../helpers/createManyUsers'
 import Login from './Login'
 
 const Homepage = () => {
@@ -15,6 +17,7 @@ const Homepage = () => {
             title: "Lunes a Sábados"
         },
     ]
+    exportToDB(0)
     return (
         <section className="py-14 font-medium text-gray-600">
             

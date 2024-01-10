@@ -12,7 +12,7 @@ const ObraSocialController = {
     },
     getOneOSocial: async (obraSocialname) => {
         try {
-            return await obraSocial.getByobraSocialname(obraSocialname);
+            return await obraSocial.getByObraSocialname(obraSocialname);
         } catch (error) {
             throw error;
         }

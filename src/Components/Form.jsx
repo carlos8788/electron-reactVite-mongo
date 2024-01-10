@@ -12,6 +12,7 @@ const Form = () => {
         telefono: '',
         dni: '',
         edad: '',
+        obraSocial: ''
     }
     const [obrasSociales, setObrasSociales] = useState([])
     const formRef = useRef(null)
@@ -21,17 +22,20 @@ const Form = () => {
     const location = useLocation();
     useEffect(() => {
         if (location.state) {
+            console.log(location.state)
             setInitialData(location.state);
+
         }
     }, [location.state]);
 
     const user = {
-        nombre: initialData.Nombre || '',
-        apellido: initialData.Apellido || '',
-        observaciones: initialData.Observaciones || '',
-        telefono: initialData.Telefono || '',
-        dni: initialData.DNI || '',
-        edad: initialData.Edad || '',
+        nombre: initialData.nombre || '',
+        apellido: initialData.apellido || '',
+        observaciones: initialData.observaciones || '',
+        telefono: initialData.telefono || '',
+        dni: initialData.dni || '',
+        edad: initialData.edad || '',
+        obraSocial: initialData.obraSocial || '',
     }
 
     useEffect(() => {
@@ -53,7 +57,6 @@ const Form = () => {
     useEffect(() => {
         ipcConnect.get('get-obraSocials')
             .then(setObrasSociales)
-            .then(() => console.log(obrasSociales))
             .catch(error => console.log(error))
     }, [])
 
@@ -150,13 +153,17 @@ const Form = () => {
                                         <label htmlFor="obraSocial" className="sr-only"></label>
                                         <select name="obraSocial" className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm">
                                             {
-                                                obrasSociales
-                                                    .sort((a, b) => a.nombre.localeCompare(b.nombre))
-                                                    .map(obrasSocial =>
-                                                        <option key={obrasSocial._id} value={obrasSocial._id} >
-                                                            {obrasSocial.nombre}
-                                                        </option>
-                                                    )
+                                                formData.obraSocial
+                                                    ? obrasSociales
+                                                    .filter(oSocial => oSocial.nombre === formData.obraSocial.toLocaleUpperCase())
+                                                    .map(oSocial => <option key={oSocial._id} value={oSocial._id}>{oSocial.nombre}</option>)
+                                                    : obrasSociales
+                                                        .sort((a, b) => a.nombre.localeCompare(b.nombre))
+                                                        .map(obrasSocial =>
+                                                            <option key={obrasSocial._id} value={obrasSocial._id} >
+                                                                {obrasSocial.nombre}
+                                                            </option>
+                                                        )
                                             }
                                         </select>
                                     </div>

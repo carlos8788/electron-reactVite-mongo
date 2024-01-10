@@ -63,6 +63,17 @@ const setupObraSocialIPC = () => {
     }
   });
 
+  ipcMain.handle('get-obraSocial-byName', async (event, data) => {
+    // console.log(data, 'handle', data.filter, data.value);
+    // try {
+
+      const result = await ObraSocialController.getOneOSocial(data);
+      return JSON.stringify(result);
+    // } catch (error) {
+      // throw JSON.stringify(new Error(error));
+    // }
+  });
+
 };
 
 module.exports = setupObraSocialIPC;

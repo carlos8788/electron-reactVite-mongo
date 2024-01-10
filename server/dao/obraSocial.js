@@ -61,6 +61,16 @@ class ObraSocialDao {
             throw new Error(error.message)
         }
     }
+
+    async getByObraSocialname(obraSocialname) {
+        try {
+            return await this.obraSocialModel.findOne({nombre: obraSocialname})
+        } catch (error) {
+            console.log(error)
+            throw new Error(error.message) 
+        }
+    }
 }
 
 module.exports = ObraSocialDao;
+

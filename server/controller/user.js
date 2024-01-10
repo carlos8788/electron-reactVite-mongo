@@ -19,10 +19,24 @@ const UserController = {
     },
     createUser: async (userData) => {
         try {
+            
             return await user.create(userData);
         } catch (error) {
             throw error;
         }
+    },
+    createManyUsers: async (users = []) => {
+
+        users.forEach(async data => {
+            try {
+                await user.create(data);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        })
+        return await user.create(users);
+
     },
     updateUser: async (id, userData) => {
         try {
