@@ -1,6 +1,6 @@
 const ipcConnect = {
-  get: (channel) => {
-    return window.electron.ipcRenderer.invoke(channel)
+  get: (channel, data) => {
+    return window.electron.ipcRenderer.invoke(channel, data)
       .then(response => JSON.parse(response))
       .catch(error => {
         console.error('Error recibido del proceso principal:', error);

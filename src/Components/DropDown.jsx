@@ -4,6 +4,7 @@ import { Fragment} from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 export default function DropDown({ data = [], name, action = () => { } }) {
+    
     return (
         <div className=" top-16 w-56 text-right">
             <Menu as="div" className="relative inline-block text-left">
@@ -32,7 +33,7 @@ export default function DropDown({ data = [], name, action = () => { } }) {
                                     <Menu.Item key={i}>
                                         {({ active }) => (
                                             <button
-                                                onClick={() => action(i)}
+                                                onClick={ () => action(i)}
                                                 className={`${active ? 'bg-green-500 text-white ' : 'text-gray-900'
                                                     } group flex w-full items-center rounded-md px-2 py-2 text-sm `}
                                             >

@@ -26,7 +26,7 @@ const UsersExcel = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    const selectDay = (data) => ipcConnect.get('excel', data).then(data => setUsers(data.data))
+    const selectDay = (day) => ipcConnect.get('excel', day).then(data => setUsers(data.data))
 
     useEffect(() => {
         ipcConnect.get('excel')
@@ -55,12 +55,16 @@ const UsersExcel = () => {
         if (hour.toString().length === 1) return `0${hour}.00`.replace('.', ':')
     }
 
+    // const exportUserToDB = () => {
+
+    // }
+
     return (
         <div className="w-screen-xl mx-auto px-4 md:px-8">
             <div className="flex gap-4">
 
                 <button 
-                onClick={exportUserToDB}
+                // onClick={exportUserToDB}
                 className="py-2 px-4  bg-green-600 hover:bg-green-700 focus:ring-green-500 focus:ring-offset-green-200 text-white w-1/2 transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 >
                     Export to DB
