@@ -5,29 +5,35 @@ import { useLocation } from 'react-router-dom';
 const CreateTurno = () => {
     const emptyForm = {
         paciente: '',
-        observaciones: '',
+        diagnostico: '',
         hora: '',
         fecha: ''
     }
 
     const formRef = useRef(null)
     const [formData, setFormData] = useState(emptyForm);
-    const [initialData, setInitialData] = useState({})
+    const [initialData, setInitialData] = useState('')
 
     const location = useLocation();
     useEffect(() => {
         if (location.state) setInitialData(location.state);
     }, [location.state]);
 
-    const user = {
-        nombre: initialData.nombre || '',
-        apellido: initialData.apellido || '',
-        observaciones: initialData.observaciones || '',
-        telefono: initialData.telefono || '',
-        dni: initialData.dni || '',
-        edad: initialData.edad || '',
-        obraSocial: initialData.obraSocial || '',
-    }
+    useEffect(() => {
+        const today = new Date();
+
+        const formattedDate = today.getFullYear() + '-' +
+            (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+            today.getDate().toString().padStart(2, '0');
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            paciente: initialData,
+            fecha: formattedDate
+        }));
+    }, [initialData]);
+
+
 
     useEffect(() => {
         ipcConnect.get('get-turnos').then(data => console.log(data))
@@ -45,7 +51,7 @@ const CreateTurno = () => {
 
     const registerTurno = (formData) => {
         // console.log(formData)
-        ipcConnect.create('create-turno', formData)            
+        ipcConnect.create('create-turno', formData)
             .catch(error => {
                 console.error('Error al crear usuario:', error);
             });
@@ -58,9 +64,9 @@ const CreateTurno = () => {
         const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
         setFormData(prevData => ({
             ...prevData,
-            paciente: paciente._id 
+            paciente: paciente._id
         }));
-        registerTurno({...formData, paciente: paciente._id });
+        registerTurno({ ...formData, paciente: paciente._id });
         setFormData(emptyForm)
     };
     return (
@@ -69,9 +75,9 @@ const CreateTurno = () => {
                 <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-lg">
                         <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Crear turno</h1>
-                        <form  
-                        className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200" 
-                        onSubmit={handleSubmit}
+                        <form
+                            className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200"
+                            onSubmit={handleSubmit}
                         >
                             <div className="flex gap-x-10">
                                 <div className='flex gap-y-2 flex-col'>
@@ -113,6 +119,7 @@ const CreateTurno = () => {
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                                                 placeholder="Fecha"
                                                 name='fecha'
+                                                value={formData.fecha}
                                                 onChange={handleInputChange}
 
                                             />
@@ -126,8 +133,8 @@ const CreateTurno = () => {
                                             className="w-full resize-none rounded-lg border align-top focus:ring-0 sm:text-sm pl-4 pt-2"
                                             rows="4"
                                             placeholder="Observaciones"
-                                            name='observaciones'
-                                            value={formData.observaciones}
+                                            name='diagnostico'
+                                            value={formData.diagnostico}
                                             onChange={handleInputChange}
                                         ></textarea>
                                     </div>

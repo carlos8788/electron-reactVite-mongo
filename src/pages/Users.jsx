@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react'
 import Search from '../Components/Search';
 import ipcConnect from '../api/ipcIndex';
 import { toCapitalize } from '../helpers/capitalizeStr';
+import { useNavigate } from 'react-router-dom';
 
 const Users = () => {
+    const toNavigate = useNavigate()
+
+    const createTurno = (dni) => toNavigate('/crear-turno', { state: dni })
 
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +31,7 @@ const Users = () => {
     const deleteU = (id) => {
         setLoading(true);
 
-        ipcConnect.delete('delete-user',id)
+        ipcConnect.delete('delete-user', id)
             .then(result => {
                 console.log(result)
                 setLoading(false)
@@ -57,13 +61,13 @@ const Users = () => {
         ipcConnect.filterData('get-data-filter', 'dni', event.target.search.value).then(data => {
             setUsers(data)
         })
-        
+
     }
 
     return (
         <div className="max-w-screen-xl mx-auto px-4 md:px-8">
 
-            <Search placeholder={'Busque un usuario por DNI'} handleSubmit={handleSubmit}/>
+            <Search placeholder={'Busque un usuario por DNI'} handleSubmit={handleSubmit} />
 
             <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
@@ -92,6 +96,9 @@ const Users = () => {
                                         </a>
                                         <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Delete
+                                        </button>
+                                        <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                            Dar Turno
                                         </button>
                                     </td>
                                 </tr>
