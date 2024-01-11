@@ -17,16 +17,24 @@ const UserController = {
             throw error;
         }
     },
+
+    getOneDNI: async (dni) => {
+        try {
+            return await user.getByDNI(dni);
+        } catch (error) {
+            throw error;
+        }
+    },
     createUser: async (userData) => {
         try {
-            
+
             return await user.create(userData);
         } catch (error) {
             throw error;
         }
     },
     createManyUsers: async (users = []) => {
-        
+
         users.forEach(async data => {
             try {
                 await user.create(data);

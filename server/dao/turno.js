@@ -2,7 +2,7 @@ const TurnoModel = require('../db/models/turno');
 
 class TurnoDao {
     constructor() {
-        this.turnoModel = TurnoModel();
+        this.turnoModel = TurnoModel;
     }
 
     async getAll() {
@@ -46,17 +46,17 @@ class TurnoDao {
         }
     }
 
-    async create(user) {
+    async create(turno) {
         try {
-            return await this.turnoModel.create(user);
+            return await this.turnoModel.create(turno);
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async update(id, user) {
+    async update(id, turno) {
         try {
-            return await this.turnoModel.findByIdAndUpdate({ _id: id }, user, { new: true });
+            return await this.turnoModel.findByIdAndUpdate({ _id: id }, turno, { new: true });
         } catch (error) {
             throw new Error(error.message)
         }

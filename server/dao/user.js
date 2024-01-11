@@ -21,6 +21,14 @@ class UserDao {
         }
     }
 
+    async getByDNI(dniData) {
+        try {
+            return await this.userModel.findOne({ dni: dniData });
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     async create(user) {
         try {
             return await this.userModel.create(user);

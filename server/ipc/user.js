@@ -23,6 +23,16 @@ const setupUserIPC = () => {
     }
   });
 
+  ipcMain.handle('get-user-dni', async (event, dni) => {
+    try {
+
+      const user = await UserController.getOneDNI(dni);
+      return JSON.stringify(user);
+    } catch (error) {
+      throw JSON.stringify(new Error(error));
+    }
+  });
+
   ipcMain.handle('create-user', async (event, userDataString) => {
     try {
       const userData = JSON.parse(userDataString);
