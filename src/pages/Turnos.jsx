@@ -41,9 +41,9 @@ const Turnos = () => {
                         {
                             currentUsers.map((item, idx) => (
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
-                                    <td className="px-6 py-1 whitespace-nowrap font-medium">{toCapitalize(item.paciente.nombre)} {toCapitalize(item.paciente.apellido)}</td>
+                                    <td className="px-6 py-1 whitespace-nowrap font-medium">{toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}</td>
                                     <td className="px-6 py-1 whitespace-nowrap">{item.observaciones}</td>
-                                    <td className="px-6 py-1 whitespace-nowrap">{item.paciente.obraSocial.nombre} </td>
+                                    <td className="px-6 py-1 whitespace-nowrap">{item.paciente.obraSocial?.nombre} </td>
                                     <td className="px-6 py-1 whitespace-nowrap">{item.hora}</td>
 
                                 </tr>

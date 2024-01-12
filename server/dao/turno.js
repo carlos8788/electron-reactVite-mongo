@@ -75,11 +75,7 @@ class TurnoDao {
         try {
             const query = {};
             query[field] = { $regex: new RegExp(value, 'i') }; // Insensible a mayúsculas y minúsculas
-            console.log(`Buscando en el campo '${field}' por el valor: ${value}`);
-            console.log('Consulta:', query);
-
             const result = await this.turnoModel.find(query);
-            console.log('Resultados encontrados:', result.length);
             return result;
         } catch (error) {
             console.log(error)

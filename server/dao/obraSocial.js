@@ -50,11 +50,7 @@ class ObraSocialDao {
         try {
             const query = {};
             query[field] = { $regex: new RegExp(value, 'i') }; // Insensible a mayúsculas y minúsculas
-            console.log(`Buscando en el campo '${field}' por el valor: ${value}`);
-            console.log('Consulta:', query);
-
             const result = await this.obraSocialModel.find(query);
-            console.log('Resultados encontrados:', result.length);
             return result;
         } catch (error) {
             console.log(error)
@@ -64,8 +60,7 @@ class ObraSocialDao {
 
     async getByObraSocialname(obraSocialname) {
         try {
-            console.log('first obraSocial', obraSocialname)
-            console.log(await this.obraSocialModel.findOne({nombre: obraSocialname.toUpperCase()}))
+
             return await this.obraSocialModel.findOne({nombre: obraSocialname})
         } catch (error) {
             console.log(error)

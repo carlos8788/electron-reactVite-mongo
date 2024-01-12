@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Search from '../Components/Search';
 import ipcConnect from '../api/ipcIndex';
 import { toCapitalize } from '../helpers/capitalizeStr';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigation } from 'react-router-dom';
 
 const Users = () => {
     const toNavigate = useNavigate()
@@ -11,7 +11,7 @@ const Users = () => {
 
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage] = useState(5);
+    const [usersPerPage] = useState(6);
     const [isLoading, setLoading] = useState(false);
 
 
@@ -23,7 +23,7 @@ const Users = () => {
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+    const currentUsers = users?.slice(indexOfFirstUser, indexOfLastUser);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -42,7 +42,8 @@ const Users = () => {
             })
     }
 
-    // const updateU = (id) => ipcConnect.updateUser(id).then(result => console.log(result))
+    
+    const editUser = (data) => toNavigate('/update-user', {state: data})
 
     const Spinner = () => {
         return (
@@ -58,7 +59,8 @@ const Users = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        ipcConnect.filterData('get-data-filter', 'dni', event.target.search.value).then(data => {
+        const field = Number(event.target.search.value)?'dni':'apellido';
+        ipcConnect.filterData('get-data-filter', field, event.target.search.value).then(data => {
             setUsers(data)
         })
 
@@ -73,25 +75,25 @@ const Users = () => {
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6">Username</th>
-                            <th className="py-3 px-6">Email</th>
-                            <th className="py-3 px-6">Course</th>
+                            <th className="py-3 px-6">Paciente</th>
+                            <th className="py-3 px-6">DNI</th>
+                            <th className="py-3 px-6">Obra Social</th>
                             <th className="py-3 px-6"></th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
-                            currentUsers.map((item, idx) => (
+                            currentUsers?.map((item, idx) => (
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         <div>
-                                            <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item.nombre)} {toCapitalize(item.apellido)}</span>
+                                            <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item?.nombre)} {toCapitalize(item.apellido)}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.obraSocial.nombre} </td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{item.obraSocial?.nombre} </td>
                                     <td className="text-right px-6 whitespace-nowrap">
-                                        <a onClick={() => console.log(item._id)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                        <a onClick={() => editUser(item)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg cursor-pointer">
                                             Edit
                                         </a>
                                         <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
@@ -99,6 +101,9 @@ const Users = () => {
                                         </button>
                                         <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Dar Turno
+                                        </button>
+                                        <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                            Detalles
                                         </button>
                                     </td>
                                 </tr>
@@ -109,7 +114,7 @@ const Users = () => {
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
-                {Array.from({ length: Math.ceil(users.length / usersPerPage) }, (_, i) => (
+                {Array.from({ length: Math.ceil(users?.length / usersPerPage) }, (_, i) => (
                     <li key={i + 1}>
                         <a
                             onClick={() => paginate(i + 1)}

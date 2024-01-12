@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const CreateTurno = () => {
     const emptyForm = {
@@ -11,6 +11,7 @@ const CreateTurno = () => {
     }
 
     const formRef = useRef(null)
+    const navigate = useNavigate()
     const [formData, setFormData] = useState(emptyForm);
     const [initialData, setInitialData] = useState('')
 
@@ -68,6 +69,7 @@ const CreateTurno = () => {
         }));
         registerTurno({ ...formData, paciente: paciente._id });
         setFormData(emptyForm)
+        navigate('/users')
     };
     return (
         <section className="py-1 font-medium text-gray-600">

@@ -45,24 +45,25 @@ const setupUserIPC = () => {
   });
 
   ipcMain.handle('create-users', async (event, dataString) => {
-    try {
-      const usersData = JSON.parse(dataString);
-      const users = await UserController.createManyUsers(usersData);
-      return JSON.stringify(users);
-    } catch (error) {
-      throw JSON.stringify(new Error(error));
-    }
+    // try {
+    const usersData = JSON.parse(dataString);
+    // console.log(usersData)
+    const users = await UserController.createManyUsers(usersData);
+    return JSON.stringify([users]);
+    // } catch (error) {
+    throw JSON.stringify(new Error(error));
+    // }
   });
 
   ipcMain.handle('update-user', async (event, data) => {
-    try {
-      const userData = JSON.parse(data);
-      const { id, ...userInfo } = userData
-      const user = await UserController.updateUser(id, userInfo);
-      return JSON.stringify(user);
-    } catch (error) {
-      throw JSON.stringify(new Error(error));
-    }
+    // try {
+    const userData = JSON.parse(data);
+    const { _id, ...userInfo } = userData
+    const user = await UserController.updateUser(_id, userInfo);
+    return JSON.stringify(user);
+    // } catch (error) {
+    throw JSON.stringify(new Error(error));
+    // }
   });
 
   ipcMain.handle('delete-user', async (event, id) => {

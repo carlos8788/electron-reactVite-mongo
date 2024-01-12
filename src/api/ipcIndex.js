@@ -38,8 +38,8 @@ const ipcConnect = {
         throw error;
       });
   },
-  update: (channel,id, data) => {
-    return window.electron.ipcRenderer.invoke(channel, id, JSON.stringify(data))
+  update: (channel, data) => {
+    return window.electron.ipcRenderer.invoke(channel, JSON.stringify(data))
       .then(response => JSON.parse(response))
       .catch(error => {
         console.error('Error recibido del proceso principal:', error);

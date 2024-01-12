@@ -7,9 +7,9 @@ const { readExcel } = require('./db/files/excel');
 const setupTurnoIPC = require('./ipc/turno');
 
 
-try {
-    require('electron-reloader')(module);
-} catch { }
+// try {
+//     require('electron-reloader')(module);
+// } catch { }
 
 
 let mainWindow;

@@ -14,14 +14,14 @@ const readExcel = (page = 0) => {
             data.dni = (data.dni?.toString().match(/\d+/g) || []).join('');         
 
             return {
-                nombre: data.nombre,
-                apellido: data.apellido,
-                hora: data.hora,
-                observaciones: data.observaciones,
-                telefono: data.telefono,
-                obraSocial: data.obraSocial,
-                dni: data.dni,
-                edad: data.edad
+                nombre: data.nombre || 'null',
+                apellido: data.apellido || 'null',
+                hora: data.hora || 'null',
+                observaciones: data.observaciones || 'null',
+                telefono: data.telefono || 'null',
+                obraSocial: data.obraSocial || 'null',
+                dni: data.dni || 'null',
+                edad: data.edad || 'null'
             }
         })
         return {

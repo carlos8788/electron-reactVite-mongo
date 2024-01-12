@@ -22,30 +22,41 @@ const UserController = {
         try {
             return await user.getByDNI(dni);
         } catch (error) {
-            throw error;
+            return undefined;
         }
     },
     createUser: async (userData) => {
         try {
-
             return await user.create(userData);
         } catch (error) {
             throw error;
         }
     },
     createManyUsers: async (users = []) => {
+        const usersOK = [];
+        const usersError = [];
 
-        users.forEach(async data => {
+        for (const data of users) {
             try {
-                await user.create(data);
+                const checkUser = await user.create(data);
+                
+                if (checkUser) {
+                    usersOK.push(checkUser);
+                } else {
+                    // Aquí puedes manejar el caso en que el usuario no fue encontrado o es inválido.
+                    usersError.push(data); // Suponiendo que quieres guardar el dato que causó error.
+                }
+            } catch (error) {
+                // Manejar cualquier error que ocurra en la búsqueda o inserción.
+                // console.error(`Error processing user with DNI ${data.dni}:`, error);
+                usersError.push(data); // Suponiendo que quieres guardar el dato que causó error.
             }
-            catch (error) {
-                console.log(error);
-            }
-        })
-        return await user.create(users);
+        }
 
+        console.log(usersError, 'users error')
+        return { usersOK, usersError };
     },
+
     updateUser: async (id, userData) => {
         try {
             return await user.update(id, userData);
@@ -61,7 +72,6 @@ const UserController = {
         }
     },
     findByField: async (field, value) => {
-        console.log(field, value);
         try {
             return await user.findByField(field, value);
         } catch (error) {

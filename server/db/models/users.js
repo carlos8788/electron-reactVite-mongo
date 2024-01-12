@@ -20,7 +20,6 @@ const userSchema = new Schema({
   obraSocial: {
     type: Schema.Types.ObjectId || undefined,
     ref: 'ObraSocial', 
-    required: true,
   },
   dni: {
     type: String,
