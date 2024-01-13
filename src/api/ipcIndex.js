@@ -30,7 +30,7 @@ const ipcConnect = {
 
     return window.electron.ipcRenderer.invoke('create-users', JSON.stringify(data))
       .then(response => {
-        console.log('Respuesta del proceso principal:', response);
+        console.log('Respuesta del proceso principal:', JSON.parse(response));
         return JSON.parse(response);
       })
       .catch(error => {

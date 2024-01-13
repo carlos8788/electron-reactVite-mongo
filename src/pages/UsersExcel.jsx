@@ -84,12 +84,11 @@ const UsersExcel = () => {
                         : <table className="w-full table-auto  text-left">
                             <thead className="bg-green-200 text-gray-600 font-medium border-b">
                                 <tr>
-                                    <th className="py-1 px-6">Nombre</th>
-                                    <th className="py-1 px-6">Apellido</th>
-                                    <th className="py-1 px-6">Hora</th>
-                                    <th className="py-1 px-6">Observaciones</th>
-                                    <th className="py-1 px-6">Teléfono</th>
-                                    <th className="py-1 px-6"></th>
+                                    <th className="py-1 px-4">Nombre y Apellido</th>
+                                    <th className="py-1 ">Hora</th>
+                                    <th className="py-1 px-4">Observaciones</th>
+                                    <th className="py-1 px-4 text-center">Teléfono</th>
+                                    <th className="py-1 px-4"></th>
                                 </tr>
                             </thead>
                             <tbody className="text-gray-600 divide-y">
@@ -97,22 +96,17 @@ const UsersExcel = () => {
                                     currentObrasSociales.map((item, idx) => (
                                         <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''} >
 
-                                            <td className="flex items-center gap-x-3 py-1 px-6 whitespace-nowrap">
+                                            <td className="flex items-center gap-x-3 py-1 px-4 whitespace-nowrap">
                                                 <div>
-                                                    <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item.nombre)}</span>
+                                                    <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item.nombre)} - {toCapitalize(item.apellido)}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-1 whitespace-nowrap ">
-                                                <span className="block text-gray-700 text-sm font-medium">
-                                                    {toCapitalize(item.apellido)}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-1 whitespace-nowrap">{toCompleteHR(item.hora)}</td>
-                                            <td className="px-6 py-1 whitespace-nowrap">{item.observaciones}</td>
-                                            <td className="text-right px-6 py-1 whitespace-nowrap">
+                                            <td className="py-1 whitespace-nowrap">{toCompleteHR(item.hora)}</td>
+                                            <td className="px-4 py-1 whitespace-nowrap">{item.observaciones}</td>
+                                            <td className="text-right px-4 py-1 whitespace-nowrap">
                                                 {item.telefono}
                                             </td>
-                                            <td className="text-right px-6 py-1 whitespace-nowrap">
+                                            <td className="text-right px-4 py-1 whitespace-nowrap">
                                                 <button
                                                     className='bg-blue-600 px-2 rounded-md text-white hover:bg-blue-500 transition-colors ease-out focus:bg-blue-700'
                                                     onClick={() => openModal(item)}>

@@ -76,6 +76,7 @@ const Users = () => {
         event.preventDefault();
         const field = Number(event.target.search.value) ? 'dni' : 'apellido';
         ipcConnect.filterData('get-data-filter', field, event.target.search.value).then(data => {
+            console.log(data)
             setUsers(data)
         })
 
@@ -114,7 +115,7 @@ const Users = () => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-center font-semibold">{item.obraSocial?.nombre} </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-center font-semibold">{item.obraSocial.nombre} </td>
                                     <td className="text-right px-6 whitespace-nowrap">
                                         <a onClick={() => editUser(item)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg cursor-pointer">
                                             Edit

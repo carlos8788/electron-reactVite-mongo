@@ -21,7 +21,8 @@ const readExcel = (page = 0) => {
                 telefono: data.telefono || 'null',
                 obraSocial: data.obraSocial || 'null',
                 dni: data.dni || 'null',
-                edad: data.edad || 'null'
+                edad: data.edad || 'null',
+                fechaNacimiento: data.fechaNacimiento || 'null'
             }
         })
         return {

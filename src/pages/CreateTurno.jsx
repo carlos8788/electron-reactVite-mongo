@@ -112,6 +112,19 @@ const CreateTurno = () => {
                                             />
                                         </div>
                                     </div>
+                                    
+                                    <div className='bg-slate-100 rounded-md'>
+                                        <label htmlFor="OrderNotes" className="sr-only"></label>
+                                        <textarea
+                                            id="OrderNotes"
+                                            className="w-full resize-none rounded-lg border align-top focus:ring-0 sm:text-sm pl-4 pt-2"
+                                            rows="4"
+                                            placeholder="Observaciones"
+                                            name='diagnostico'
+                                            value={formData.diagnostico}
+                                            onChange={handleInputChange}
+                                        ></textarea>
+                                    </div>
 
                                     <div className='bg-slate-100 rounded-md'>
                                         <label htmlFor="fecha" className="sr-only"></label>
@@ -128,18 +141,7 @@ const CreateTurno = () => {
                                         </div>
                                     </div>
 
-                                    <div className='bg-slate-100 rounded-md'>
-                                        <label htmlFor="OrderNotes" className="sr-only"></label>
-                                        <textarea
-                                            id="OrderNotes"
-                                            className="w-full resize-none rounded-lg border align-top focus:ring-0 sm:text-sm pl-4 pt-2"
-                                            rows="4"
-                                            placeholder="Observaciones"
-                                            name='diagnostico'
-                                            value={formData.diagnostico}
-                                            onChange={handleInputChange}
-                                        ></textarea>
-                                    </div>
+
                                 </div>
 
                             </div>

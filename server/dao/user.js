@@ -59,7 +59,7 @@ class UserDao {
             const query = {};
             query[field] = { $regex: new RegExp(value, 'i') }; // Insensible a mayúsculas y minúsculas
 
-            const result = await this.userModel.find(query);
+            const result = await this.userModel.find(query).populate('obraSocial', 'nombre');
             return result;
         } catch (error) {
             console.log(error)
