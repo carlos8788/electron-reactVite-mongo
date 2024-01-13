@@ -92,7 +92,7 @@ const Users = () => {
     return (
         <div className="w-full mx-auto px-4 md:px-8">
 
-            <Search placeholder={'Busque un usuario por DNI'} handleSubmit={handleSubmit} />
+            <Search placeholder={'Busque un usuario por DNI o Apellido'} handleSubmit={handleSubmit} />
 
             <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">

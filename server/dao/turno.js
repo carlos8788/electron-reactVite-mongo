@@ -38,7 +38,7 @@ class TurnoDao {
 
     async getAllByDate(date) {
         try {
-            const result = await this.turnoModel.find({fecha: { $regex: new RegExp(date, 'i') }});
+            const result = await this.turnoModel.find({ fecha: { $regex: new RegExp(date, 'i') } });
             return result;
         } catch (error) {
             console.log(error)
@@ -71,11 +71,18 @@ class TurnoDao {
         }
     }
 
-    async findByField(field, value) {
+    async findByField(data) {
         try {
             const query = {};
-            query[field] = { $regex: new RegExp(value, 'i') }; // Insensible a mayúsculas y minúsculas
-            const result = await this.turnoModel.find(query);
+            query[data.filter] = new RegExp(data.value, 'i');
+            const result = await this.turnoModel.find(query).populate({
+                path: 'paciente',
+                model: 'User',
+                populate: {
+                    path: 'obraSocial',
+                    model: 'ObraSocial'
+                }
+            });
             return result;
         } catch (error) {
             console.log(error)

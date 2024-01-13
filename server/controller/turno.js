@@ -45,10 +45,10 @@ const TurnoController = {
             throw error;
         }
     },
-    findByField: async (field, value) => {
+    findByField: async (data) => {
 
         try {
-            return await turno.findByField(field, value);
+            return await turno.findByField(data);
         } catch (error) {
             throw error;
         }
