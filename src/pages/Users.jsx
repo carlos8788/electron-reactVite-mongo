@@ -14,6 +14,8 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(6);
     const [isLoading, setLoading] = useState(false);
+    const [order, setOrder] = useState(false);
+    
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -28,7 +30,9 @@ const Users = () => {
 
     useEffect(() => {
         ipcConnect.get('get-users')
-            .then((allUsers) => setUsers(allUsers))
+            .then((allUsers) => 
+            setUsers(allUsers)
+            )
             .catch((error) => console.log(error));
     }, []);
 
@@ -77,8 +81,15 @@ const Users = () => {
 
     }
 
+    const orderField = () => {
+        setOrder(!order)
+        order
+            ?users.sort((a, b) => a.apellido.localeCompare(b.apellido))
+            :users.sort((a, b) => b.apellido.localeCompare(a.apellido))
+    }
+
     return (
-        <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+        <div className="w-full mx-auto px-4 md:px-8">
 
             <Search placeholder={'Busque un usuario por DNI'} handleSubmit={handleSubmit} />
 
@@ -86,7 +97,7 @@ const Users = () => {
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6 text-center">Paciente</th>
+                            <th className="py-3 px-6 text-center cursor-pointer hover:bg-blue-600 hover:text-white transition" onClick={orderField}>Paciente {order?'↓':'↑'}</th>
                             <th className="py-3 px-6 text-center">DNI</th>
                             <th className="py-3 px-6 text-center">Obra Social</th>
                             <th className="py-3 px-6 text-center"></th>
@@ -94,7 +105,8 @@ const Users = () => {
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
-                            currentUsers?.map((item, idx) => (
+                            currentUsers
+                            .map((item, idx) => (
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         <div>

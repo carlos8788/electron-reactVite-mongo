@@ -66,7 +66,7 @@ const UsersExcel = () => {
     }
 
     return (
-        <div className="w-screen-xl mx-auto px-4 md:px-8">
+        <div className="w-full mx-auto px-4 md:px-8">
             <div className="flex gap-4">
 
                 <button
