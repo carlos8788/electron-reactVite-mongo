@@ -124,7 +124,7 @@ const UsersExcel = () => {
                                 }
                             </tbody>
                         </table>}
-                {isModalOpen && <Modal open={isModalOpen} data={selectedItem} closeModal={closeModal} />}
+                {isModalOpen && <Modal open={isModalOpen} data={selectedItem} closeModal={closeModal} addUser={true} />}
             </div>
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
                 {Array.from({ length: Math.ceil(users.length / usersPerPage) }, (_, i) => (

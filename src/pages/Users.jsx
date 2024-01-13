@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import Search from '../Components/Search';
 import ipcConnect from '../api/ipcIndex';
 import { toCapitalize } from '../helpers/capitalizeStr';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../Components/Modal';
 
 const Users = () => {
     const toNavigate = useNavigate()
@@ -13,6 +14,16 @@ const Users = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(6);
     const [isLoading, setLoading] = useState(false);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const openModal = (item) => {
+        setSelectedItem(item);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => setIsModalOpen(false);
 
 
     useEffect(() => {
@@ -33,7 +44,7 @@ const Users = () => {
 
         ipcConnect.delete('delete-user', id)
             .then(result => {
-                console.log(result)
+
                 setLoading(false)
                 setUsers(result);
             })
@@ -42,8 +53,8 @@ const Users = () => {
             })
     }
 
-    
-    const editUser = (data) => toNavigate('/update-user', {state: data})
+
+    const editUser = (data) => toNavigate('/update-user', { state: data })
 
     const Spinner = () => {
         return (
@@ -59,7 +70,7 @@ const Users = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const field = Number(event.target.search.value)?'dni':'apellido';
+        const field = Number(event.target.search.value) ? 'dni' : 'apellido';
         ipcConnect.filterData('get-data-filter', field, event.target.search.value).then(data => {
             setUsers(data)
         })
@@ -75,10 +86,10 @@ const Users = () => {
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6">Paciente</th>
-                            <th className="py-3 px-6">DNI</th>
-                            <th className="py-3 px-6">Obra Social</th>
-                            <th className="py-3 px-6"></th>
+                            <th className="py-3 px-6 text-center">Paciente</th>
+                            <th className="py-3 px-6 text-center">DNI</th>
+                            <th className="py-3 px-6 text-center">Obra Social</th>
+                            <th className="py-3 px-6 text-center"></th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
@@ -87,11 +98,11 @@ const Users = () => {
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
                                         <div>
-                                            <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item?.nombre)} {toCapitalize(item.apellido)}</span>
+                                            <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item?.nombre)} - {toCapitalize(item.apellido)}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.obraSocial?.nombre} </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-center font-semibold">{item.obraSocial?.nombre} </td>
                                     <td className="text-right px-6 whitespace-nowrap">
                                         <a onClick={() => editUser(item)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg cursor-pointer">
                                             Edit
@@ -102,7 +113,10 @@ const Users = () => {
                                         <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Dar Turno
                                         </button>
-                                        <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                        <button
+                                            onClick={() => openModal(item)}
+                                            className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
+                                        >
                                             Detalles
                                         </button>
                                     </td>
@@ -111,6 +125,7 @@ const Users = () => {
                         }
                     </tbody>
                 </table>
+                {isModalOpen && <Modal open={isModalOpen} data={selectedItem} closeModal={closeModal} addUser={false} />}
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
