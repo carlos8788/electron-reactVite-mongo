@@ -2,16 +2,26 @@ import { useEffect, useState } from 'react'
 import ipcConnect from '../api/ipcIndex';
 import { toCapitalize } from '../helpers/capitalizeStr';
 import DropDown from '../Components/DropDown';
+import { useNavigate } from 'react-router-dom';
+import CrearDia from '../Components/CrearDia';
 
 const Turnos = () => {
-
+    const toNavigate = useNavigate()
     const [turnos, setTurnos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
     const [isLoading, setLoading] = useState(false);
     const [fechas, setFechas] = useState([]);
     const [dayView, setDayView] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
 
+    const openModal = (item) => {
+        setSelectedItem(item);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => setIsModalOpen(false);
 
     const selectDay = (day) => {
         setDayView(day);
@@ -42,13 +52,21 @@ const Turnos = () => {
             })
     }
 
+    const editTurno = (data) => toNavigate('/update-turno', { state: data })
+
+    const crearDia = () => openModal(null)
 
     return (
         <div className="w-full mx-auto px-4 md:px-8">
             <h1 className='text-center text-2xl font-bold text-green-600 sm:text-3xl'>Turnos</h1>
             <div className='flex gap-3 justify-center mb-0 mt-4'>
                 <DropDown data={fechas} name={'Fechas'} action={selectDay} />
-                <button className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 hover:text-white transition-colors'>Hola Mundo</button>
+                <button
+                    onClick={ crearDia }
+                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 hover:text-white transition-colors'
+                >
+                    Crear día de atención
+                </button>
 
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
@@ -73,6 +91,9 @@ const Turnos = () => {
                                     <td className="px-4 py-1 whitespace-nowrap">{item.hora}</td>
                                     <td className="px-4 py-1 whitespace-nowrap">{item.fecha}</td>
                                     <td className="text-right px-6 whitespace-nowrap">
+                                        <button onClick={() => editTurno(item)} className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                            Edit
+                                        </button>
                                         <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Delete
                                         </button>
@@ -83,6 +104,7 @@ const Turnos = () => {
                         }
                     </tbody>
                 </table>
+                {isModalOpen && <CrearDia open={isModalOpen}  closeModal={closeModal}  />}
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">

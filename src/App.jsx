@@ -9,6 +9,7 @@ import UsersExcel from './pages/UsersExcel';
 import CreateTurno from './pages/CreateTurno';
 import Turnos from './pages/Turnos';
 import UpdateUser from './pages/UpdateUser';
+import UpdateTurno from './pages/UpdateTurno';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/obras-sociales" element={<ObrasSociales />} />
           <Route path="/users-excel" element={<UsersExcel />} />
           <Route path="/crear-turno" element={<CreateTurno />} />
+          <Route path="/update-turno" element={<UpdateTurno />} />
           <Route path="/turnos" element={<Turnos />} />
           <Route path="/update-user" element={<UpdateUser />} />
         </Routes>
