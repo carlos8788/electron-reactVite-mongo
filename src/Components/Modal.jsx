@@ -6,6 +6,7 @@ export default function Modal({data, open=true, closeModal, addUser}) {
     const toNavigate = useNavigate()
     
     const registerForm = () => toNavigate('/form', {state: data})
+    const profile = () => toNavigate('/user-profile', {state: data})
 
     return (
         <>
@@ -67,6 +68,15 @@ export default function Modal({data, open=true, closeModal, addUser}) {
                                             onClick={registerForm}
                                         >
                                             Agregar paciente
+                                        </button>
+                                        }
+                                        {data?._id &&
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            onClick={profile}
+                                        >
+                                            Perfil
                                         </button>
                                         }
                                     </div>

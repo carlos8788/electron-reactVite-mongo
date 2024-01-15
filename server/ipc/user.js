@@ -56,14 +56,14 @@ const setupUserIPC = () => {
   });
 
   ipcMain.handle('update-user', async (event, data) => {
-    // try {
+    try {
     const userData = JSON.parse(data);
     const { _id, ...userInfo } = userData
     const user = await UserController.updateUser(_id, userInfo);
     return JSON.stringify(user);
-    // } catch (error) {
+    } catch (error) {
     throw JSON.stringify(new Error(error));
-    // }
+    }
   });
 
   ipcMain.handle('delete-user', async (event, id) => {
