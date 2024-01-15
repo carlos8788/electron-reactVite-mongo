@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export default function UpdateUser() {
@@ -21,6 +21,8 @@ export default function UpdateUser() {
     const [initialData, setInitialData] = useState({})
 
     const location = useLocation();
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (location.state) setInitialData(location.state);
     }, [location.state]);
@@ -60,9 +62,6 @@ export default function UpdateUser() {
 
     const updateUser = (formData) => {
         ipcConnect.update('update-user', formData)
-            .then(() => {
-                formRef.current.reset();
-            })
             .catch(error => {
                 console.error('Error al crear usuario:', error);
             });
@@ -75,7 +74,7 @@ export default function UpdateUser() {
         console.log(userData)
         updateUser(userData)
         setFormData(emptyForm)
-
+        navigate('/users')
     };
 
     return (
@@ -83,9 +82,9 @@ export default function UpdateUser() {
             <div className="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
                 <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-lg">
-                        <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Registro</h1>
+                        <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Actualizar Paciente</h1>
                         <form onSubmit={handleSubmit} ref={formRef} className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200">
-                            <p className="text-center text-lg font-medium">Registre un paciente</p>
+                            <p className="text-center text-lg font-medium">Actualice un paciente</p>
                             <div className="flex gap-x-10">
                                 <div className='flex gap-y-2 flex-col'>
                                     <div className='bg-slate-100 rounded-md'>

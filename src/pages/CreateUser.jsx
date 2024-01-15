@@ -4,7 +4,7 @@ import ipcConnect from '../api/ipcIndex';
 import { useLocation } from 'react-router-dom';
 
 
-const Form = () => {
+const CreateUser = () => {
     const emptyForm = {
         nombre: '',
         apellido: '',
@@ -220,5 +220,5 @@ const Form = () => {
     )
 }
 
-export default Form
+export default CreateUser
 

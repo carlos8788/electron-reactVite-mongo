@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './pages/Layout';
 import Homepage from './Components/Homepage';
-import Form from './Components/Form';
+import CreateUser from './pages/CreateUser';
 // import Users from './Components/Users';
 import ObrasSociales from './pages/ObrasSociales';
 import Users from './pages/Users';
@@ -20,7 +20,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/form" element={<Form />} />
+          <Route path="/form" element={<CreateUser />} />
           <Route path="/users" element={<Users />} />
           <Route path="/obras-sociales" element={<ObrasSociales />} />
           <Route path="/users-excel" element={<UsersExcel />} />
