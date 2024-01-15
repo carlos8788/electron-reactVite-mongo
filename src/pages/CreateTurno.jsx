@@ -61,9 +61,9 @@ const CreateTurno = () => {
         const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
         setFormData(prevData => ({
             ...prevData,
-            paciente: paciente._id
+            paciente: paciente?._id
         }));
-        registerTurno({ ...formData, paciente: paciente._id });
+        registerTurno({ ...formData, paciente: paciente?._id });
         setFormData(emptyForm)
         navigate('/users')
     };

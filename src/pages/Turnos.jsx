@@ -25,7 +25,11 @@ const Turnos = () => {
 
     const selectDay = (day) => {
         setDayView(day);
-        ipcConnect.filterData('get-turno-filter', 'fecha', fechas[day]).then(result => setTurnos(result))
+        ipcConnect.filterData('get-turno-filter', 'fecha', fechas[day]).then(result => {
+            console.log(turnos)
+            setTurnos(result)
+            paginate(1)
+        })
     }
     useEffect(() => {
         ipcConnect.get('get-turnos')
@@ -33,6 +37,7 @@ const Turnos = () => {
                 setTurnos(data);
                 setFechas([... new Set(data.map(turno => turno.fecha))])
             })
+            
             .catch((error) => console.log(error));
     }, []);
 
@@ -53,6 +58,7 @@ const Turnos = () => {
     }
 
     const editTurno = (data) => toNavigate('/update-turno', { state: data })
+    const createTurno = () => toNavigate('/crear-turno')
 
     const crearDia = () => openModal(null)
 
@@ -67,7 +73,12 @@ const Turnos = () => {
                 >
                     Crear día de atención
                 </button>
-
+                <button
+                    onClick={ createTurno }
+                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
+                >
+                    Crear turno
+                </button>
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
@@ -83,11 +94,13 @@ const Turnos = () => {
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
-                            currentTurnos.map((item, idx) => (
+                            currentTurnos
+                            .sort((a, b) => a.hora.localeCompare(b.hora))
+                            .map((item, idx) => (
                                 <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                     <td className="px-4 py-1 whitespace-nowrap font-medium">{toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}</td>
                                     <td className="px-4 py-1 whitespace-nowrap">{item.diagnostico?.substring(0, 22)}{item.diagnostico?.substring(0, 22).length >= 22 ? '...' : ''}</td>
-                                    <td className="px-4 py-1 whitespace-nowrap text-center">{item.paciente.obraSocial?.nombre} </td>
+                                    <td className="py-1 whitespace-nowrap text-center">{item.paciente?.obraSocial?.nombre} </td>
                                     <td className="px-4 py-1 whitespace-nowrap">{item.hora}</td>
                                     <td className="px-4 py-1 whitespace-nowrap">{item.fecha}</td>
                                     <td className="text-right px-6 whitespace-nowrap">

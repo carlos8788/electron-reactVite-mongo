@@ -26,7 +26,7 @@ export default function UpdateUser() {
     }, [location.state]);
 
     const user = {
-        _id: initialData._id,
+        _id: initialData?._id,
         nombre: initialData.nombre || '',
         apellido: initialData.apellido || '',
         observaciones: initialData.observaciones || '',

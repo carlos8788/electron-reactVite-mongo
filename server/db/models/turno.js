@@ -2,8 +2,9 @@ const { Schema, model } = require('mongoose');
 
 const turnoSchema = new Schema({
   paciente: {
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.Mixed,
     ref: 'User',
+    required: false
   },
   diagnostico: {
     type: String,

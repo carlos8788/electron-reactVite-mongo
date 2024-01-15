@@ -1,11 +1,30 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, } from 'react'
 import { useNavigate } from 'react-router-dom'
+import crearRango from '../helpers/crearRango'
+import ipcConnect from '../api/ipcIndex'
 
 export default function CrearDia({ open = true, closeModal }) {
     const toNavigate = useNavigate()
 
-    const redirectTurnos = () => toNavigate('/turnos')
+    const redirectTurnos = () => toNavigate('/users')
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target);
+        const userData = Object.fromEntries(formData.entries());
+        console.log(userData)
+        const horarios = crearRango(userData.hora_inicio, userData.hora_fin, Number(userData.intervalo))
+
+        horarios.forEach( async hora => {
+            await ipcConnect.create('create-turno', {
+                diagnostico: '',
+                hora: hora,
+                fecha: userData.fecha
+            })
+            
+        })
+        redirectTurnos();
+    }
 
     return (
         <>
@@ -43,6 +62,7 @@ export default function CrearDia({ open = true, closeModal }) {
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <form
+                                            onSubmit={handleSubmit}
                                             className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200 "
                                         >
                                             <div className="flex justify-center flex-col">

@@ -18,7 +18,8 @@ const UpdateTurno = () => {
     useEffect(() => {
         console.log(location.state)
         setFormData({
-            paciente: location.state?.paciente.dni,
+            _id: location.state._id,
+            paciente: location.state?.paciente?.dni,
             diagnostico: location.state?.destino,
             hora: location.state.hora,
             fecha: location.state.fecha
@@ -38,7 +39,7 @@ const UpdateTurno = () => {
         // console.log(formData)
         ipcConnect.update('update-turno', formData)
             .catch(error => {
-                console.error('Error al crear usuario:', error);
+                console.error('Error al actualizar turno:', error);
             });
     };
 
@@ -49,9 +50,9 @@ const UpdateTurno = () => {
         const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
         setFormData(prevData => ({
             ...prevData,
-            paciente: paciente._id
+            paciente: paciente?._id
         }));
-        updateTurno({ ...formData, paciente: paciente._id })
+        updateTurno({ ...formData, paciente: paciente?._id })
         setFormData(emptyForm)
         navigate('/users')
     };
