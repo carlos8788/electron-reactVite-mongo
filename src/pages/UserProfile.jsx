@@ -19,7 +19,10 @@ const UserProfile = () => {
     useEffect(() => {
         setUser({ ...location.state })
         ipcConnect.filterData('get-turno-filter', 'paciente', location.state._id)
-            .then(setUserTurnos)
+            .then(data=>{
+                setUserTurnos(data)
+                console.log(data)
+            })
     }, [location.state])
 
     // const toNavigate = useNavigate()

@@ -4,6 +4,7 @@ import { toCapitalize } from '../helpers/capitalizeStr';
 import DropDown from '../Components/DropDown';
 import { useNavigate } from 'react-router-dom';
 import CrearDia from '../Components/CrearDia';
+import Alert from '../Components/Alert';
 
 const Turnos = () => {
     const toNavigate = useNavigate()
@@ -14,6 +15,7 @@ const Turnos = () => {
     const [fechas, setFechas] = useState([]);
     const [dayView, setDayView] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
     const openModal = (item) => {
@@ -22,12 +24,13 @@ const Turnos = () => {
     };
 
     const closeModal = () => setIsModalOpen(false);
+    const closeAlert = () => setIsAlertOpen(false);
 
     const selectDay = (day) => {
         setDayView(day);
         ipcConnect.filterData('get-turno-filter', 'fecha', fechas[day]).then(result => {
             console.log(turnos)
-            setTurnos(result)
+            setTurnos(result.sort((a, b) => a.hora.localeCompare(b.hora)))
             paginate(1)
         })
     }
@@ -61,6 +64,7 @@ const Turnos = () => {
     const createTurno = () => toNavigate('/crear-turno')
 
     const crearDia = () => openModal(null)
+    const alerta = () => setIsAlertOpen(true)
 
     return (
         <div className="w-full mx-auto px-4 md:px-8">
@@ -78,6 +82,12 @@ const Turnos = () => {
                     className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
                 >
                     Crear turno
+                </button>
+                <button
+                    onClick={ alerta }
+                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
+                >
+                    alert
                 </button>
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
@@ -118,6 +128,7 @@ const Turnos = () => {
                     </tbody>
                 </table>
                 {isModalOpen && <CrearDia open={isModalOpen}  closeModal={closeModal}  />}
+                {isAlertOpen && <Alert open={isAlertOpen}  closeModal={closeAlert}  />}
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
