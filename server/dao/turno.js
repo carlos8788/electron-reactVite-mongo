@@ -1,5 +1,6 @@
 const TurnoModel = require('../db/models/turno');
-
+require('../db/models/users');
+require('../db/models/obraSocial');
 class TurnoDao {
     constructor() {
         this.turnoModel = TurnoModel;
@@ -15,6 +16,7 @@ class TurnoDao {
                     model: 'ObraSocial'
                 }
             });
+            
         } catch (error) {
             throw new Error(error.message)
         }
@@ -48,6 +50,7 @@ class TurnoDao {
 
     async create(turno) {
         try {
+            turno.paciente = turno.paciente.toString();
             return await this.turnoModel.create(turno);
         } catch (error) {
             throw new Error(error.message)
@@ -75,6 +78,7 @@ class TurnoDao {
         try {
             const query = {};
             query[data.filter] = new RegExp(data.value, 'i');
+            console.log(query)
             const result = await this.turnoModel.find(query).populate({
                 path: 'paciente',
                 model: 'User',

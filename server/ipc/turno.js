@@ -5,12 +5,12 @@ const TurnoController = require('../controller/turno');
 const setupTurnoIPC = () => {
 
   ipcMain.handle('get-turnos', async (event) => {
-    try {
+    // try {
       const users = await TurnoController.getTurnos()
       return JSON.stringify(users);
-    } catch (error) {
-      throw JSON.stringify(new Error(error));
-    }
+    // } catch (error) {
+    //   throw JSON.stringify(new Error(error));
+    // }
   });
 
   ipcMain.handle('get-turno', async (event, id) => {
@@ -66,13 +66,13 @@ const setupTurnoIPC = () => {
   });
 
   ipcMain.handle('get-turno-filter', async (event, data) => {
-    // try {
+    try {
       const result = await TurnoController.findByField(data)
       return JSON.stringify(result);
-    // } catch (error) {
+    } catch (error) {
       console.log(error);
-    //   throw JSON.stringify(new Error(error));
-    // }
+      throw JSON.stringify(new Error(error));
+    }
   });
 };
 

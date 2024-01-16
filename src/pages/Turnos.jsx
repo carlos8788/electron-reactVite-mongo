@@ -5,26 +5,35 @@ import DropDown from '../Components/DropDown';
 import { useNavigate } from 'react-router-dom';
 import CrearDia from '../Components/CrearDia';
 import Alert from '../Components/Alert';
+import Modal from '../Components/Modal';
 
 const Turnos = () => {
     const toNavigate = useNavigate()
     const [turnos, setTurnos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
-    const [isLoading, setLoading] = useState(false);
+    // const [isLoading, setLoading] = useState(false);
     const [fechas, setFechas] = useState([]);
     const [dayView, setDayView] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
     const openModal = (item) => {
         setSelectedItem(item);
         setIsModalOpen(true);
     };
+    
+    const openModalDetail = (item) => {
+        console.log(item)
+        setSelectedItem(item.paciente);
+        setIsDetailOpen(true)
+    }
 
     const closeModal = () => setIsModalOpen(false);
     const closeAlert = () => setIsAlertOpen(false);
+    const closeDetail = () => setIsDetailOpen(false);
 
     const selectDay = (day) => {
         setDayView(day);
@@ -64,7 +73,6 @@ const Turnos = () => {
     const createTurno = () => toNavigate('/crear-turno')
 
     const crearDia = () => openModal(null)
-    const alerta = () => setIsAlertOpen(true)
 
     return (
         <div className="w-full mx-auto px-4 md:px-8">
@@ -82,12 +90,6 @@ const Turnos = () => {
                     className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
                 >
                     Crear turno
-                </button>
-                <button
-                    onClick={ alerta }
-                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
-                >
-                    alert
                 </button>
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
@@ -120,6 +122,12 @@ const Turnos = () => {
                                         <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
                                             Delete
                                         </button>
+                                        <button
+                                            onClick={() => openModalDetail(item)}
+                                            className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
+                                        >
+                                            Detalles
+                                        </button>
                                     </td>
 
                                 </tr>
@@ -129,6 +137,7 @@ const Turnos = () => {
                 </table>
                 {isModalOpen && <CrearDia open={isModalOpen}  closeModal={closeModal}  />}
                 {isAlertOpen && <Alert open={isAlertOpen}  closeModal={closeAlert}  />}
+                {isDetailOpen && <Modal open={isDetailOpen}  closeModal={closeDetail} data={selectedItem}  />}
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">

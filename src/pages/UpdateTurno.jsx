@@ -20,7 +20,7 @@ const UpdateTurno = () => {
         setFormData({
             _id: location.state._id,
             paciente: location.state?.paciente?.dni,
-            diagnostico: location.state?.destino,
+            diagnostico: location.state?.diagnostico,
             hora: location.state.hora,
             fecha: location.state.fecha
         })
@@ -54,7 +54,7 @@ const UpdateTurno = () => {
         }));
         updateTurno({ ...formData, paciente: paciente?._id })
         setFormData(emptyForm)
-        navigate('/users')
+        navigate('/turnos')
     };
     return (
         <section className="py-1 font-medium text-gray-600">
