@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment,  } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function Modal({ open=true, closeModal}) {
+export default function Modal({ open=true, closeModal, onConfirm, item}) {
 
 
     return (
@@ -52,6 +52,14 @@ export default function Modal({ open=true, closeModal}) {
                                             onClick={closeModal}
                                         >
                                             Cerrar
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-slate-100 px-4 py-2 text-sm font-medium text-green-500 hover:bg-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                                            onClick={()=> onConfirm(item)}
+                                        >
+                                            Confirmar
                                         </button>
 
                                     </div>

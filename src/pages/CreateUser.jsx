@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { pacienteDTO } from '../helpers/paciente.dto';
 
 
@@ -19,7 +19,7 @@ const CreateUser = () => {
     const formRef = useRef(null)
     const [formData, setFormData] = useState(emptyForm);
     const [initialData, setInitialData] = useState({})
-
+    const navigate = useNavigate()
     const location = useLocation();
     useEffect(() => {
         if (location.state) setInitialData(location.state);
@@ -73,7 +73,7 @@ const CreateUser = () => {
         const userData = Object.fromEntries(formData.entries());
         registerUser(pacienteDTO(userData))
         setFormData(emptyForm)
-
+        navigate(-1)
     };
 
     return (

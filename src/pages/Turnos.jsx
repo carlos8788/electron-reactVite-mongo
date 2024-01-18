@@ -19,6 +19,7 @@ const Turnos = () => {
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [id, setId] = useState(null)
 
     const openModal = (item) => {
         setSelectedItem(item);
@@ -30,22 +31,34 @@ const Turnos = () => {
         setSelectedItem(item.paciente);
         setIsDetailOpen(true)
     }
+    const closeDetail = () => setIsDetailOpen(false);
+
 
     const closeModal = () => setIsModalOpen(false);
-    const closeAlert = () => setIsAlertOpen(false);
-    const closeDetail = () => setIsDetailOpen(false);
+    const closeAlert = () => setIsAlertOpen(false)
+
+
+    const openAlert = (id) => {
+        setId(id)
+        setIsAlertOpen(true)
+    }
+    const handleDeleteConfirm = async (item) => {
+        // Lógica para manejar la confirmación de eliminación
+        console.log("Eliminar:", item);
+        // Luego cierra el alerta
+        deleteU(item)
+        setIsAlertOpen(false);
+    };
 
     const selectDay = (day) => {
         setDayView(day);
         ipcConnect.filterData('get-turno-filter', 'fecha', fechas[day]).then(result => {
-            console.log(turnos)
             setTurnos(result.sort((a, b) => a.hora.localeCompare(b.hora)))
             paginate(1)
         })
     }
 
     const getDays = () => {
-        console.log('llega?')
         const date = new Date()
         let setDay = Number(date.getDate());
         for (let i = 0; i < 7; i++) {
@@ -74,6 +87,7 @@ const Turnos = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const deleteU = (id) => {
+
         ipcConnect.delete('delete-turno', id)
             .then(result => {
                 setTurnos(result);
@@ -105,19 +119,18 @@ const Turnos = () => {
                 >
                     Crear turno
                 </button>
-                {/* <button
-                    onClick={getDays}
+                <button
+                    onClick={openAlert}
                     className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
                 >
                     test
-                </button> */}
+                </button>
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
                             <th className="py-3 px-4 text-center">Paciente</th>
-                            {/* <th className="py-3 px-4 text-center">Observaciones</th> */}
                             <th className="py-3 px-4 text-center">Obra Social</th>
                             <th className="py-3 px-4 text-center">Hora</th>
                             <th className="py-3 text-center">Fecha</th>
@@ -133,27 +146,31 @@ const Turnos = () => {
                                         <td className="px-4 py-1 whitespace-nowrap font-medium">
                                             {toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}
                                         </td>
-                                        {/* <td className="px-4 py-1 whitespace-nowrap">
-                                            {item.diagnostico?.substring(0, 22)}{item.diagnostico?.substring(0, 22).length >= 22 ? '...' : ''}
-                                            </td> */}
                                         <td className="py-1 whitespace-nowrap text-center">
                                             {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''}
                                         </td>
-                                        <td className="px-4 py-1 whitespace-nowrap">{item.hora}</td>
-                                        <td className="px-4 py-1 whitespace-nowrap">{item.fecha}</td>
+                                        <td className="px-4 py-1 whitespace-nowrap text-center">{item.hora}</td>
+                                        <td className="px-4 py-1 whitespace-nowrap text-center">{item.fecha}</td>
                                         <td className="text-right pr-1  whitespace-nowrap">
-                                            <button onClick={() => editTurno(item)} className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
-                                                Edit
-                                            </button>
-                                            <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
-                                                Delete
-                                            </button>
                                             <button
                                                 onClick={() => openModalDetail(item)}
                                                 className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
                                             >
                                                 Detalles
                                             </button>
+                                            <button
+                                                onClick={() => editTurno(item)}
+                                                className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => openAlert(item._id)}
+                                                className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg"
+                                            >
+                                                Delete
+                                            </button>
+
                                         </td>
 
                                     </tr>
@@ -162,7 +179,7 @@ const Turnos = () => {
                     </tbody>
                 </table>
                 {isModalOpen && <CrearDia open={isModalOpen} closeModal={closeModal} />}
-                {isAlertOpen && <Alert open={isAlertOpen} closeModal={closeAlert} />}
+                {isAlertOpen && <Alert open={isAlertOpen} closeModal={closeAlert} onConfirm={() => handleDeleteConfirm(id)} />}
                 {isDetailOpen && <Modal open={isDetailOpen} closeModal={closeDetail} data={selectedItem} />}
             </div>
 

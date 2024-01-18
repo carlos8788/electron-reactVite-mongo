@@ -15,7 +15,7 @@ const Users = () => {
     const [usersPerPage] = useState(6);
     const [isLoading, setLoading] = useState(false);
     const [order, setOrder] = useState(false);
-    
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -30,8 +30,8 @@ const Users = () => {
 
     useEffect(() => {
         ipcConnect.get('get-users')
-            .then((allUsers) => 
-            setUsers(allUsers)
+            .then((allUsers) =>
+                setUsers(allUsers)
             )
             .catch((error) => console.log(error));
     }, []);
@@ -85,8 +85,8 @@ const Users = () => {
     const orderField = () => {
         setOrder(!order)
         order
-            ?users.sort((a, b) => a.apellido.localeCompare(b.apellido))
-            :users.sort((a, b) => b.apellido.localeCompare(a.apellido))
+            ? users.sort((a, b) => a.apellido.localeCompare(b.apellido))
+            : users.sort((a, b) => b.apellido.localeCompare(a.apellido))
     }
 
     return (
@@ -98,7 +98,7 @@ const Users = () => {
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
-                            <th className="py-3 px-6 text-center cursor-pointer hover:bg-blue-600 hover:text-white transition" onClick={orderField}>Paciente {order?'↓':'↑'}</th>
+                            <th className="py-3 px-6 text-center cursor-pointer hover:bg-blue-600 hover:text-white transition" onClick={orderField}>Paciente {order ? '↓' : '↑'}</th>
                             <th className="py-3 px-6 text-center">DNI</th>
                             <th className="py-3 px-6 text-center">Obra Social</th>
                             <th className="py-3 px-6 text-center"></th>
@@ -107,34 +107,35 @@ const Users = () => {
                     <tbody className="text-gray-600 divide-y">
                         {
                             currentUsers
-                            .map((item, idx) => (
-                                <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
-                                    <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
-                                        <div>
-                                            <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item?.nombre)} - {toCapitalize(item.apellido)}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-center font-semibold">{item.obraSocial?.nombre || 'No hay datos'} </td>
-                                    <td className="text-right px-6 whitespace-nowrap">
-                                        <a onClick={() => editUser(item)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg cursor-pointer">
-                                            Edit
-                                        </a>
-                                        <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
-                                            Delete
-                                        </button>
-                                        <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
-                                            Dar Turno
-                                        </button>
-                                        <button
-                                            onClick={() => openModal(item)}
-                                            className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
-                                        >
-                                            Detalles
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
+                                .map((item, idx) => (
+                                    <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
+                                        <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap">
+                                            <div>
+                                                <span className="block text-gray-700 text-sm font-medium">{toCapitalize(item?.nombre)} - {toCapitalize(item.apellido)}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{item.dni}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-center font-semibold">{item.obraSocial?.nombre || 'No hay datos'} </td>
+                                        <td className="text-right px-6 whitespace-nowrap">
+                                            <button onClick={() => createTurno(item.dni)} className="py-2 leading-none px-3 font-medium text-green-600 hover:text-green-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                                Dar Turno
+                                            </button>
+                                            <button
+                                                onClick={() => openModal(item)}
+                                                className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
+                                            >
+                                                Detalles
+                                            </button>
+                                            <a onClick={() => editUser(item)} className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-200 rounded-lg cursor-pointer">
+                                                Edit
+                                            </a>
+                                            <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                                Delete
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                ))
                         }
                     </tbody>
                 </table>

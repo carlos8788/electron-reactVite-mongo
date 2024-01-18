@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ipcConnect from '../api/ipcIndex'
 import { toCapitalize } from '../helpers/capitalizeStr'
 
@@ -26,7 +26,7 @@ const UserProfile = () => {
             })
     }, [location.state])
 
-    // const toNavigate = useNavigate()
+    const toNavigate = useNavigate()
     // const [turnos, setTurnos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
@@ -77,7 +77,7 @@ const UserProfile = () => {
     //         })
     // }
 
-    // const editTurno = (data) => toNavigate('/update-turno', { state: data })
+    const editTurno = (data) => toNavigate('/update-turno', { state: data })
     // const createTurno = () => toNavigate('/crear-turno')
 
     // const crearDia = () => openModal(null)
@@ -123,7 +123,7 @@ const UserProfile = () => {
                                             {item.}
                                         </td> */}
                                         <td className="text-right px-6 whitespace-nowrap">
-                                            <button className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                            <button onClick={() => editTurno(item)} className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
                                                 Edit
                                             </button>
                                             <button className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
