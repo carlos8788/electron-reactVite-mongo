@@ -40,7 +40,6 @@ const readExcel = (page = 0) => {
 
 const writeBook = () => {
 
-    // Leer el libro de trabajo existente
     const workbook = XLSX.readFile(process.env.DOC);
 
     // Crear una nueva hoja de trabajo

@@ -44,12 +44,12 @@ export default function Modal({data, open=true, closeModal, addUser}) {
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500 flex flex-col gap-4">
-                                            <span>Nombre: {data.nombre}</span>
-                                            <span>Apellido: {data.apellido}</span>
-                                            <span>DNI: {data.dni}</span>
-                                            <span>Obra Social: {data.obraSocial.nombre}</span>
-                                            <span>Teléfono: {data.telefono}</span>
-                                            <span>Observaciones: {data.observaciones}</span>
+                                            <span>Nombre: {data?.nombre}</span>
+                                            <span>Apellido: {data?.apellido}</span>
+                                            <span>DNI: {data?.dni}</span>
+                                            <span>Obra Social: {data?.obraSocial.nombre}</span>
+                                            <span>Teléfono: {data?.telefono}</span>
+                                            <span>Observaciones: {data?.observaciones}</span>
                                         </p>
                                     </div>
 

@@ -115,12 +115,12 @@ const Turnos = () => {
                 >
                     Crear turno
                 </button>
-                <button
+                {/* <button
                     onClick={openAlert}
                     className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
                 >
                     test
-                </button>
+                </button> */}
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
@@ -143,7 +143,8 @@ const Turnos = () => {
                                             {toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}
                                         </td>
                                         <td className="py-1 whitespace-nowrap text-center">
-                                            {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''}
+                                            {/* {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''} */}
+                                            {item.paciente?.telefono}
                                         </td>
                                         <td className="px-4 py-1 whitespace-nowrap text-center">{item.hora}</td>
                                         <td className="px-4 py-1 whitespace-nowrap text-center">{item.fecha}</td>

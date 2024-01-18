@@ -37,6 +37,7 @@ const UpdateTurno = () => {
     };
 
     const updateTurno = (formData) => {
+        console.log('llega?')
         ipcConnect.update('update-turno', formData)
             .catch(error => {
                 console.error('Error al actualizar turno:', error);
@@ -47,8 +48,10 @@ const UpdateTurno = () => {
         e.preventDefault();
         const dataForm = new FormData(e.target);
         const data = Object.fromEntries(dataForm.entries());
-        data.paciente = prepareDNI(data.paciente)
+        data.paciente = prepareDNI(data.paciente.trim())
+        console.log(data.paciente)
         const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
+        console.log(paciente)
         setFormData(prevData => ({
             ...prevData,
             paciente: paciente?._id

@@ -44,4 +44,4 @@ const ipcConnect = {
   },
 };
 
-export default ipcConnect;
+// export default ipcConnect;
