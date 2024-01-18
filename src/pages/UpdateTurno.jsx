@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { prepareDNI } from '../helpers/paciente.dto';
 
 const UpdateTurno = () => {
     const emptyForm = {
@@ -36,7 +37,6 @@ const UpdateTurno = () => {
     };
 
     const updateTurno = (formData) => {
-        // console.log(formData)
         ipcConnect.update('update-turno', formData)
             .catch(error => {
                 console.error('Error al actualizar turno:', error);
@@ -47,6 +47,7 @@ const UpdateTurno = () => {
         e.preventDefault();
         const dataForm = new FormData(e.target);
         const data = Object.fromEntries(dataForm.entries());
+        data.paciente = prepareDNI(data.paciente)
         const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
         setFormData(prevData => ({
             ...prevData,
