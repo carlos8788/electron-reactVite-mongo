@@ -24,7 +24,7 @@ const Turnos = () => {
         setSelectedItem(item);
         setIsModalOpen(true);
     };
-    
+
     const openModalDetail = (item) => {
         console.log(item)
         setSelectedItem(item.paciente);
@@ -43,15 +43,29 @@ const Turnos = () => {
             paginate(1)
         })
     }
+
+    const getDays = () => {
+        console.log('llega?')
+        const date = new Date()
+        let setDay = Number(date.getDate());
+        for (let i = 0; i < 7; i++) {
+            const day = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + setDay;
+            const fecha = fechas.findIndex(item => item === day)
+            setDay++;
+            if (fecha !== -1) return selectDay(fecha)
+        }
+    }
+
     useEffect(() => {
         ipcConnect.get('get-turnos')
             .then(data => {
                 setTurnos(data);
                 setFechas([... new Set(data.map(turno => turno.fecha))])
             })
-            
             .catch((error) => console.log(error));
     }, []);
+
+    useEffect(getDays, [fechas])
 
     const indexOfLastTurno = currentPage * turnoPerPage;
     const indexOfFirstTurno = indexOfLastTurno - turnoPerPage;
@@ -80,64 +94,76 @@ const Turnos = () => {
             <div className='flex gap-3 justify-center mb-0 mt-4'>
                 <DropDown data={fechas} name={'Fechas'} action={selectDay} />
                 <button
-                    onClick={ crearDia }
+                    onClick={crearDia}
                     className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 hover:text-white transition-colors'
                 >
                     Crear día de atención
                 </button>
                 <button
-                    onClick={ createTurno }
+                    onClick={createTurno}
                     className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
                 >
                     Crear turno
                 </button>
+                {/* <button
+                    onClick={getDays}
+                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
+                >
+                    test
+                </button> */}
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
                             <th className="py-3 px-4 text-center">Paciente</th>
-                            <th className="py-3 px-4 text-center">Observaciones</th>
+                            {/* <th className="py-3 px-4 text-center">Observaciones</th> */}
                             <th className="py-3 px-4 text-center">Obra Social</th>
                             <th className="py-3 px-4 text-center">Hora</th>
-                            <th className="py-3 px-4 text-center">Fecha</th>
-                            <th className="py-3 px-4"></th>
+                            <th className="py-3 text-center">Fecha</th>
+                            <th className="py-3 "></th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
                             currentTurnos
-                            .sort((a, b) => a.hora.localeCompare(b.hora))
-                            .map((item, idx) => (
-                                <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
-                                    <td className="px-4 py-1 whitespace-nowrap font-medium">{toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}</td>
-                                    <td className="px-4 py-1 whitespace-nowrap">{item.diagnostico?.substring(0, 22)}{item.diagnostico?.substring(0, 22).length >= 22 ? '...' : ''}</td>
-                                    <td className="py-1 whitespace-nowrap text-center">{item.paciente?.obraSocial?.nombre} </td>
-                                    <td className="px-4 py-1 whitespace-nowrap">{item.hora}</td>
-                                    <td className="px-4 py-1 whitespace-nowrap">{item.fecha}</td>
-                                    <td className="text-right px-6 whitespace-nowrap">
-                                        <button onClick={() => editTurno(item)} className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
-                                            Edit
-                                        </button>
-                                        <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
-                                            Delete
-                                        </button>
-                                        <button
-                                            onClick={() => openModalDetail(item)}
-                                            className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
-                                        >
-                                            Detalles
-                                        </button>
-                                    </td>
+                                .sort((a, b) => a.hora.localeCompare(b.hora))
+                                .map((item, idx) => (
+                                    <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
+                                        <td className="px-4 py-1 whitespace-nowrap font-medium">
+                                            {toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}
+                                        </td>
+                                        {/* <td className="px-4 py-1 whitespace-nowrap">
+                                            {item.diagnostico?.substring(0, 22)}{item.diagnostico?.substring(0, 22).length >= 22 ? '...' : ''}
+                                            </td> */}
+                                        <td className="py-1 whitespace-nowrap text-center">
+                                            {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''}
+                                        </td>
+                                        <td className="px-4 py-1 whitespace-nowrap">{item.hora}</td>
+                                        <td className="px-4 py-1 whitespace-nowrap">{item.fecha}</td>
+                                        <td className="text-right pr-1  whitespace-nowrap">
+                                            <button onClick={() => editTurno(item)} className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                                Edit
+                                            </button>
+                                            <button onClick={() => deleteU(item._id)} className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg">
+                                                Delete
+                                            </button>
+                                            <button
+                                                onClick={() => openModalDetail(item)}
+                                                className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
+                                            >
+                                                Detalles
+                                            </button>
+                                        </td>
 
-                                </tr>
-                            ))
+                                    </tr>
+                                ))
                         }
                     </tbody>
                 </table>
-                {isModalOpen && <CrearDia open={isModalOpen}  closeModal={closeModal}  />}
-                {isAlertOpen && <Alert open={isAlertOpen}  closeModal={closeAlert}  />}
-                {isDetailOpen && <Modal open={isDetailOpen}  closeModal={closeDetail} data={selectedItem}  />}
+                {isModalOpen && <CrearDia open={isModalOpen} closeModal={closeModal} />}
+                {isAlertOpen && <Alert open={isAlertOpen} closeModal={closeAlert} />}
+                {isDetailOpen && <Modal open={isDetailOpen} closeModal={closeDetail} data={selectedItem} />}
             </div>
 
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">

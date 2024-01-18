@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
 import { useLocation } from 'react-router-dom';
+import { pacienteDTO } from '../helpers/paciente.dto';
 
 
 const CreateUser = () => {
@@ -70,7 +71,7 @@ const CreateUser = () => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const userData = Object.fromEntries(formData.entries());
-        registerUser(userData)
+        registerUser(pacienteDTO(userData))
         setFormData(emptyForm)
 
     };

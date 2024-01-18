@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import ipcConnect from '../api/ipcIndex'
 import { toCapitalize } from '../helpers/capitalizeStr'
@@ -17,10 +17,10 @@ const UserProfile = () => {
         edad: ''
     })
     useEffect(() => {
-        console.log(location.state)
+        // console.log(location.state)
         setUser({ ...location.state })
         ipcConnect.filterData('get-turno-filter', 'paciente', location.state._id)
-            .then(data=>{
+            .then(data => {
                 setUserTurnos(data)
                 console.log(data)
             })
@@ -28,8 +28,8 @@ const UserProfile = () => {
 
     // const toNavigate = useNavigate()
     // const [turnos, setTurnos] = useState([]);
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [turnoPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [turnoPerPage] = useState(10);
     // const [isLoading, setLoading] = useState(false);
     // const [fechas, setFechas] = useState([]);
     // const [dayView, setDayView] = useState(0);
@@ -61,11 +61,11 @@ const UserProfile = () => {
     //         .catch((error) => console.log(error));
     // }, []);
 
-    // const indexOfLastTurno = currentPage * turnoPerPage;
-    // const indexOfFirstTurno = indexOfLastTurno - turnoPerPage;
-    // const currentTurnos = turnos.slice(indexOfFirstTurno, indexOfLastTurno);
+    const indexOfLastTurno = currentPage * turnoPerPage;
+    const indexOfFirstTurno = indexOfLastTurno - turnoPerPage;
+    const currentTurnos = userTurnos.slice(indexOfFirstTurno, indexOfLastTurno);
 
-    // const paginate = pageNumber => setCurrentPage(pageNumber);
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     // const deleteU = (id) => {
     //     ipcConnect.delete('delete-turno', id)
@@ -85,21 +85,11 @@ const UserProfile = () => {
     return (
         <div className="w-full mx-auto px-4 md:px-8">
             <h1 className='text-center text-2xl font-bold text-green-600 sm:text-3xl'>Paciente: <span className='text-blue-500'>{user.nombre} {toCapitalize(user.apellido)}</span></h1>
-            {/* <div className='flex gap-3 justify-center mb-0 mt-4'>
-                <DropDown data={fechas} name={'Fechas'} action={selectDay} />
-                <button
-                    onClick={ crearDia }
-                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 hover:text-white transition-colors'
-                >
-                    Crear día de atención
-                </button>
-                <button
-                    onClick={ createTurno }
-                    className='font-semibold bg-green-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors'
-                >
-                    Crear turno
-                </button>
-            </div> */}
+            <div className='flex gap-3 justify-center items-center mb-0 mt-4 flex-col'>
+                <span>DNI: {user.dni}</span>
+                <span>Obra Social:{user.obraSocial.nombre}</span>
+                <span>Observaciones:{user.observaciones}</span>
+            </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
@@ -113,7 +103,8 @@ const UserProfile = () => {
                     </thead>
                     <tbody className="text-gray-600 divide-y">
                         {
-                            userTurnos
+                            currentTurnos
+                                .sort((a, b) => a.fecha.localeCompare(b.fecha))
                                 .map((item, idx) => (
                                     <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
                                         <td className="px-4 py-1 whitespace-nowrap font-medium text-center">
@@ -148,8 +139,8 @@ const UserProfile = () => {
 
             </div>
 
-            {/* <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
-                {Array.from({ length: Math.ceil(turnos.length / turnoPerPage) }, (_, i) => (
+            <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
+                {Array.from({ length: Math.ceil(userTurnos.length / turnoPerPage) }, (_, i) => (
                     <li key={i + 1}>
                         <a
                             onClick={() => paginate(i + 1)}
@@ -160,7 +151,7 @@ const UserProfile = () => {
                         </a>
                     </li>
                 ))}
-            </ol> */}
+            </ol>
         </div>
 
     )
