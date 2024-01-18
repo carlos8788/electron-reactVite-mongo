@@ -116,12 +116,6 @@ const UserProfile = () => {
                                         <td className="py-1 whitespace-nowrap text-center">
                                             {item.diagnostico}
                                         </td>
-                                        {/* <td className="px-4 py-1 whitespace-nowrap">
-                                            {item.}
-                                        </td> */}
-                                        {/* <td className="px-4 py-1 whitespace-nowrap">
-                                            {item.}
-                                        </td> */}
                                         <td className="text-right px-6 whitespace-nowrap">
                                             <button onClick={() => editTurno(item)} className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg">
                                                 Edit
@@ -152,6 +146,15 @@ const UserProfile = () => {
                     </li>
                 ))}
             </ol>
+            <div className="flex justify-center mt-5">
+                <button
+                    onClick={() => toNavigate(-1)}
+                    className='font-semibold bg-gray-600 p-2 rounded-md hover:bg-green-500 text-white transition-colors '
+                >
+                    Volver
+                </button>
+            </div>
+
         </div>
 
     )

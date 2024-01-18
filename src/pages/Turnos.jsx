@@ -12,7 +12,6 @@ const Turnos = () => {
     const [turnos, setTurnos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
-    // const [isLoading, setLoading] = useState(false);
     const [fechas, setFechas] = useState([]);
     const [dayView, setDayView] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +26,7 @@ const Turnos = () => {
     };
 
     const openModalDetail = (item) => {
-        console.log(item)
+
         setSelectedItem(item.paciente);
         setIsDetailOpen(true)
     }
@@ -43,9 +42,6 @@ const Turnos = () => {
         setIsAlertOpen(true)
     }
     const handleDeleteConfirm = async (item) => {
-        // Lógica para manejar la confirmación de eliminación
-        console.log("Eliminar:", item);
-        // Luego cierra el alerta
         deleteU(item)
         setIsAlertOpen(false);
     };
