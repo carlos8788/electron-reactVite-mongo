@@ -143,8 +143,8 @@ const Turnos = () => {
                                             {toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}
                                         </td>
                                         <td className="py-1 whitespace-nowrap text-center">
-                                            {/* {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''} */}
-                                            {item.paciente?.telefono}
+                                            {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''}
+                                            {/* {item.paciente?.telefono} */}
                                         </td>
                                         <td className="px-4 py-1 whitespace-nowrap text-center">{item.hora}</td>
                                         <td className="px-4 py-1 whitespace-nowrap text-center">{item.fecha}</td>
