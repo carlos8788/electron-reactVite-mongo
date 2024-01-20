@@ -96,6 +96,7 @@ const Users = () => {
     }
 
     const mostrarPacientesPorApellido = (letra) => {
+        setLetraActual(letra)
         setUsers(letras[letra])
     }
 
@@ -113,7 +114,7 @@ const Users = () => {
                             <a
                                 onClick={() => mostrarPacientesPorApellido(letra)}
                                 className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-300 w-8 cursor-pointer
-                            ${currentPage === i + 1 ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
+                            ${letraActual === letra ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
                             >
                                 {letra}
                             </a>
