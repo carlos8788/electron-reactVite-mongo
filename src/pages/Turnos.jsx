@@ -69,7 +69,8 @@ const Turnos = () => {
         ipcConnect.get('get-turnos')
             .then(data => {
                 setTurnos(data);
-                setFechas([... new Set(data.map(turno => turno.fecha))])
+                const filterFechas = [... new Set(data.map(turno => turno.fecha))]
+                setFechas(filterFechas.sort((a,b)=> a.localeCompare(b)))
             })
             .catch((error) => console.log(error));
     }, []);

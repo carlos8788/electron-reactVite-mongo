@@ -1,10 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment,  } from 'react'
-import { useNavigate } from 'react-router-dom'
 
-export default function Modal({ open=true, closeModal, onConfirm, item}) {
-
-
+export default function Alert({ open=true, closeModal, onConfirm, item}) {
     return (
         <>
             <Transition appear show={open} as={Fragment}>

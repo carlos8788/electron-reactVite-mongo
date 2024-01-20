@@ -4,6 +4,7 @@ import ipcConnect from '../api/ipcIndex';
 import { toCapitalize } from '../helpers/capitalizeStr';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../Components/Modal';
+import { agruparPorPrimeraLetra } from '../helpers/primerLetra';
 
 const Users = () => {
     const toNavigate = useNavigate()
@@ -15,10 +16,14 @@ const Users = () => {
     const [usersPerPage] = useState(6);
     const [isLoading, setLoading] = useState(false);
     const [order, setOrder] = useState(false);
-
+    
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+
+
+    const [letras, setLetras] = useState({})
+    const [letraActual, setLetraActual] = useState(null)
 
     const openModal = (item) => {
         setSelectedItem(item);
@@ -30,9 +35,10 @@ const Users = () => {
 
     useEffect(() => {
         ipcConnect.get('get-users')
-            .then((allUsers) =>
+            .then((allUsers) => {
                 setUsers(allUsers)
-            )
+                setLetras(agruparPorPrimeraLetra(allUsers))
+            })
             .catch((error) => console.log(error));
     }, []);
 
@@ -89,12 +95,32 @@ const Users = () => {
             : users.sort((a, b) => b.apellido.localeCompare(a.apellido))
     }
 
+    const mostrarPacientesPorApellido = (letra) => {
+        setUsers(letras[letra])
+    }
+
     return (
         <div className="w-full mx-auto px-4 md:px-8">
 
             <Search placeholder={'Busque un usuario por DNI o Apellido'} handleSubmit={handleSubmit} />
-
-            <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+            
+            <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
+                {
+                    Object.keys(letras)
+                    .sort((a,b)=> a.localeCompare(b))
+                    .map((letra, i) => (
+                        <li key={i + 1}>
+                            <a
+                                onClick={() => mostrarPacientesPorApellido(letra)}
+                                className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-300 w-8 cursor-pointer
+                            ${currentPage === i + 1 ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
+                            >
+                                {letra}
+                            </a>
+                        </li>
+                    ))}
+            </ol>
+            <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
                     <thead className="bg-blue-200 text-gray-600 font-medium border-b">
                         <tr>
