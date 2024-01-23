@@ -1,4 +1,4 @@
-export const prepareDNI = (dni) => dni.match(/\d+/g).join('')
+export const prepareDNI = (dni) => dni?.match(/\d+/g)?.join('')
 
 export const pacienteDTO = (paciente) => {
     const regexDNI = prepareDNI(paciente.dni);

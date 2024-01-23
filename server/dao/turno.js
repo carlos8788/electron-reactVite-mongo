@@ -50,7 +50,7 @@ class TurnoDao {
 
     async create(turno) {
         try {
-            turno.paciente = turno.paciente.toString();
+            turno.paciente = turno.paciente?.toString();
             return await this.turnoModel.create(turno);
         } catch (error) {
             throw new Error(error.message)

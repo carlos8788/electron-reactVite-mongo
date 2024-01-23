@@ -24,14 +24,14 @@ const setupTurnoIPC = () => {
   });
 
   ipcMain.handle('create-turno', async (event, data) => {
-    try {
+    // try {
       const turnoData = JSON.parse(data);
       console.log(turnoData)
       const turno = await TurnoController.createTurno(turnoData)
       return JSON.stringify(turno);
-    } catch (error) {
-      throw JSON.stringify(new Error(error));
-    }
+    // } catch (error) {
+    //   throw JSON.stringify(new Error(error));
+    // }
   });
 
   ipcMain.handle('create-turnos', async (event, dataString) => {
