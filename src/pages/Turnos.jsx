@@ -21,13 +21,14 @@ const Turnos = () => {
     const [id, setId] = useState(null)
 
     const openModal = (item) => {
+        
         setSelectedItem(item);
         setIsModalOpen(true);
     };
 
     const openModalDetail = (item) => {
-
-        setSelectedItem(item.paciente);
+        console.log(item)
+        setSelectedItem(item);
         setIsDetailOpen(true)
     }
     const closeDetail = () => setIsDetailOpen(false);
@@ -70,7 +71,7 @@ const Turnos = () => {
             .then(data => {
                 setTurnos(data);
                 const filterFechas = [... new Set(data.map(turno => turno.fecha))]
-                setFechas(filterFechas.sort((a,b)=> a.localeCompare(b)))
+                setFechas(filterFechas.sort((a, b) => a.localeCompare(b)))
             })
             .catch((error) => console.log(error));
     }, []);
@@ -150,6 +151,7 @@ const Turnos = () => {
                                         <td className="px-4 py-1 whitespace-nowrap text-center">{item.hora}</td>
                                         <td className="px-4 py-1 whitespace-nowrap text-center">{item.fecha}</td>
                                         <td className="text-right pr-1  whitespace-nowrap">
+                                            {/* {item.paciente?.telefono} */}
                                             <button
                                                 onClick={() => openModalDetail(item)}
                                                 className="py-2 leading-none px-3 font-medium bg-blue-700 text-white  duration-150 hover:bg-blue-400 hover:text-black rounded-lg"
@@ -158,7 +160,7 @@ const Turnos = () => {
                                             </button>
                                             <button
                                                 onClick={() => editTurno(item)}
-                                                className="py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg"
+                                                className="mx-3 py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg"
                                             >
                                                 Edit
                                             </button>

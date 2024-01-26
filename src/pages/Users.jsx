@@ -26,7 +26,8 @@ const Users = () => {
     const [letraActual, setLetraActual] = useState(null)
 
     const openModal = (item) => {
-        setSelectedItem(item);
+        const setItem = {paciente: item}
+        setSelectedItem(setItem);
         setIsModalOpen(true);
     };
 

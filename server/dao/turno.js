@@ -78,7 +78,6 @@ class TurnoDao {
         try {
             const query = {};
             query[data.filter] = new RegExp(data.value, 'i');
-            console.log(query)
             const result = await this.turnoModel.find(query).populate({
                 path: 'paciente',
                 model: 'User',

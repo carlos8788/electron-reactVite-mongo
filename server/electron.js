@@ -85,6 +85,5 @@ app.whenReady()
         setupUserIPC();
         setupObraSocialIPC();
         setupTurnoIPC()
-        connectToDatabase();
-        
+        connectToDatabase();      
     })

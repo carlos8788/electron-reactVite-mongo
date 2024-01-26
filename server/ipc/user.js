@@ -3,7 +3,6 @@ const UserController = require('../controller/user');
 const { readExcel } = require('../db/files/excel');
 
 const setupUserIPC = () => {
-  console.log('setup')
   ipcMain.handle('get-users', async (event) => {
     try {
       const users = await UserController.getUsers();
@@ -25,7 +24,6 @@ const setupUserIPC = () => {
 
   ipcMain.handle('get-user-dni', async (event, dni) => {
     try {
-
       const user = await UserController.getOneDNI(dni);
       return JSON.stringify(user);
     } catch (error) {
@@ -45,24 +43,23 @@ const setupUserIPC = () => {
   });
 
   ipcMain.handle('create-users', async (event, dataString) => {
-    // try {
-    const usersData = JSON.parse(dataString);
-    // console.log(usersData)
-    const users = await UserController.createManyUsers(usersData);
-    return JSON.stringify([users]);
-    // } catch (error) {
-    throw JSON.stringify(new Error(error));
-    // }
+    try {
+      const usersData = JSON.parse(dataString);
+      const users = await UserController.createManyUsers(usersData);
+      return JSON.stringify([users]);
+    } catch (error) {
+      throw JSON.stringify(new Error(error));
+    }
   });
 
   ipcMain.handle('update-user', async (event, data) => {
     try {
-    const userData = JSON.parse(data);
-    const { _id, ...userInfo } = userData
-    const user = await UserController.updateUser(_id, userInfo);
-    return JSON.stringify(user);
+      const userData = JSON.parse(data);
+      const { _id, ...userInfo } = userData
+      const user = await UserController.updateUser(_id, userInfo);
+      return JSON.stringify(user);
     } catch (error) {
-    throw JSON.stringify(new Error(error));
+      throw JSON.stringify(new Error(error));
     }
   });
 

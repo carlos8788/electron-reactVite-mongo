@@ -1,6 +1,5 @@
 // preload.js
 const { contextBridge, ipcRenderer } = require('electron');
-console.log('Se cargó el preload')
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
     send: (channel, data) => ipcRenderer.send(channel, data),

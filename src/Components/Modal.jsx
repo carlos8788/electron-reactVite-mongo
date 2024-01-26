@@ -3,10 +3,11 @@ import { Fragment,  } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Modal({data, open=true, closeModal, addUser}) {
+    const paciente = data.paciente
     const toNavigate = useNavigate()
     
-    const registerForm = () => toNavigate('/form', {state: data})
-    const profile = () => toNavigate('/user-profile', {state: data})
+    const registerForm = () => toNavigate('/form', {state: paciente})
+    const profile = () => toNavigate('/user-profile', {state: paciente})
 
     return (
         <>
@@ -44,12 +45,13 @@ export default function Modal({data, open=true, closeModal, addUser}) {
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500 flex flex-col gap-4">
-                                            <span>Nombre: {data?.nombre}</span>
-                                            <span>Apellido: {data?.apellido}</span>
-                                            <span>DNI: {data?.dni}</span>
-                                            <span>Obra Social: {data?.obraSocial.nombre}</span>
-                                            <span>Teléfono: {data?.telefono}</span>
-                                            <span>Observaciones: {data?.observaciones}</span>
+                                            <span>Nombre: {paciente?.nombre}</span>
+                                            <span>Apellido: {paciente?.apellido}</span>
+                                            <span>DNI: {paciente?.dni}</span>
+                                            <span>Obra Social: {paciente?.obraSocial.nombre}</span>
+                                            <span>Teléfono: {paciente?.telefono}</span>
+                                            <span>Observaciones: {paciente?.observaciones}</span>
+                                            <span>Motivo: {data?.diagnostico}</span>
                                         </p>
                                     </div>
 
@@ -70,7 +72,7 @@ export default function Modal({data, open=true, closeModal, addUser}) {
                                             Agregar paciente
                                         </button>
                                         }
-                                        {data?._id &&
+                                        {paciente?._id &&
                                         <button
                                             type="button"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

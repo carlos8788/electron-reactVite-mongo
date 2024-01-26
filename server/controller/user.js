@@ -43,13 +43,11 @@ const UserController = {
                 if (checkUser) {
                     usersOK.push(checkUser);
                 } else {
-                    // Aquí puedes manejar el caso en que el usuario no fue encontrado o es inválido.
-                    usersError.push(data); // Suponiendo que quieres guardar el dato que causó error.
+
+                    usersError.push(data); 
                 }
             } catch (error) {
-                // Manejar cualquier error que ocurra en la búsqueda o inserción.
-                // console.error(`Error processing user with DNI ${data.dni}:`, error);
-                usersError.push(data); // Suponiendo que quieres guardar el dato que causó error.
+                usersError.push(data); 
             }
         }
 

@@ -17,49 +17,17 @@ const UserProfile = () => {
         edad: ''
     })
     useEffect(() => {
-        // console.log(location.state)
         setUser({ ...location.state })
         ipcConnect.filterData('get-turno-filter', 'paciente', location.state._id)
             .then(data => {
                 setUserTurnos(data)
-                console.log(data)
             })
     }, [location.state])
 
     const toNavigate = useNavigate()
-    // const [turnos, setTurnos] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
-    // const [isLoading, setLoading] = useState(false);
-    // const [fechas, setFechas] = useState([]);
-    // const [dayView, setDayView] = useState(0);
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [selectedItem, setSelectedItem] = useState(null);
-
-    // const openModal = (item) => {
-    //     setSelectedItem(item);
-    //     setIsModalOpen(true);
-    // };
-
-    // const closeModal = () => setIsModalOpen(false);
-
-    // const selectDay = (day) => {
-    //     setDayView(day);
-    //     ipcConnect.filterData('get-turno-filter', 'fecha', fechas[day]).then(result => {
-    //         console.log(turnos)
-    //         setTurnos(result)
-    //         paginate(1)
-    //     })
-    // }
-    // useEffect(() => {
-    //     ipcConnect.get('get-turnos')
-    //         .then(data => {
-    //             setTurnos(data);
-    //             setFechas([... new Set(data.map(turno => turno.fecha))])
-    //         })
-
-    //         .catch((error) => console.log(error));
-    // }, []);
 
     const indexOfLastTurno = currentPage * turnoPerPage;
     const indexOfFirstTurno = indexOfLastTurno - turnoPerPage;
@@ -67,20 +35,8 @@ const UserProfile = () => {
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    // const deleteU = (id) => {
-    //     ipcConnect.delete('delete-turno', id)
-    //         .then(result => {
-    //             setTurnos(result);
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
-
     const editTurno = (data) => toNavigate('/update-turno', { state: data })
-    // const createTurno = () => toNavigate('/crear-turno')
 
-    // const crearDia = () => openModal(null)
 
     return (
         <div className="w-full mx-auto px-4 md:px-8">
