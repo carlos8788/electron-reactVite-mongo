@@ -27,7 +27,6 @@ const Turnos = () => {
     };
 
     const openModalDetail = (item) => {
-        console.log(item)
         setSelectedItem(item);
         setIsDetailOpen(true)
     }
@@ -70,8 +69,12 @@ const Turnos = () => {
         ipcConnect.get('get-turnos')
             .then(data => {
                 setTurnos(data);
-                const filterFechas = [... new Set(data.map(turno => turno.fecha))]
-                setFechas(filterFechas.sort((a, b) => a.localeCompare(b)))
+                let filterFechas = [... new Set(data.map(turno => turno.fecha))]
+                filterFechas = filterFechas.sort((a, b) => a.localeCompare(b))
+                if (filterFechas.length > 12) {
+                    filterFechas = filterFechas.slice(filterFechas.length - 12); 
+                }
+                setFechas(filterFechas)
             })
             .catch((error) => console.log(error));
     }, []);
