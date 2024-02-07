@@ -5,6 +5,7 @@ import { toCapitalize } from '../helpers/capitalizeStr';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../Components/Modal';
 import { agruparPorPrimeraLetra } from '../helpers/primerLetra';
+import Pagination from '../Components/Pagination';
 
 const Users = () => {
     const toNavigate = useNavigate()
@@ -16,7 +17,7 @@ const Users = () => {
     const [usersPerPage] = useState(6);
     const [isLoading, setLoading] = useState(false);
     const [order, setOrder] = useState(false);
-    
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -26,7 +27,7 @@ const Users = () => {
     const [letraActual, setLetraActual] = useState(null)
 
     const openModal = (item) => {
-        const setItem = {paciente: item}
+        const setItem = { paciente: item }
         setSelectedItem(setItem);
         setIsModalOpen(true);
     };
@@ -47,9 +48,6 @@ const Users = () => {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = users?.slice(indexOfFirstUser, indexOfLastUser);
 
-    const paginate = pageNumber => setCurrentPage(pageNumber);
-
-
     const deleteU = (id) => {
         setLoading(true);
 
@@ -66,18 +64,6 @@ const Users = () => {
 
 
     const editUser = (data) => toNavigate('/update-user', { state: data })
-
-    const Spinner = () => {
-        return (
-            <div
-                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status">
-                <span
-                    className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
-                >Loading...</span>
-            </div>
-        )
-    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -105,22 +91,22 @@ const Users = () => {
         <div className="w-full mx-auto px-4 md:px-8">
 
             <Search placeholder={'Busque un usuario por DNI o Apellido'} handleSubmit={handleSubmit} />
-            
+
             <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
                 {
                     Object.keys(letras)
-                    .sort((a,b)=> a.localeCompare(b))
-                    .map((letra, i) => (
-                        <li key={i + 1}>
-                            <a
-                                onClick={() => mostrarPacientesPorApellido(letra)}
-                                className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-300 w-8 cursor-pointer
+                        .sort((a, b) => a.localeCompare(b))
+                        .map((letra, i) => (
+                            <li key={i + 1}>
+                                <a
+                                    onClick={() => mostrarPacientesPorApellido(letra)}
+                                    className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-300 w-8 cursor-pointer
                             ${letraActual === letra ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
-                            >
-                                {letra}
-                            </a>
-                        </li>
-                    ))}
+                                >
+                                    {letra}
+                                </a>
+                            </li>
+                        ))}
             </ol>
             <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
@@ -169,20 +155,12 @@ const Users = () => {
                 </table>
                 {isModalOpen && <Modal open={isModalOpen} data={selectedItem} closeModal={closeModal} addUser={false} />}
             </div>
-
-            <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
-                {Array.from({ length: Math.ceil(users?.length / usersPerPage) }, (_, i) => (
-                    <li key={i + 1}>
-                        <a
-                            onClick={() => paginate(i + 1)}
-                            className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-300 w-8 cursor-pointer
-                            ${currentPage === i + 1 ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
-                        >
-                            {i + 1}
-                        </a>
-                    </li>
-                ))}
-            </ol>
+            <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalUsers={users.length}
+                usersPerPage={usersPerPage}
+            />
         </div>
 
     )

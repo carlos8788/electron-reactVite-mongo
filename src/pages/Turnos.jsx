@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import CrearDia from '../Components/CrearDia';
 import Alert from '../Components/Alert';
 import Modal from '../Components/Modal';
+import Pagination from '../Components/Pagination';
 
 const Turnos = () => {
     const toNavigate = useNavigate()
@@ -21,7 +22,7 @@ const Turnos = () => {
     const [id, setId] = useState(null)
 
     const openModal = (item) => {
-        
+
         setSelectedItem(item);
         setIsModalOpen(true);
     };
@@ -56,9 +57,13 @@ const Turnos = () => {
 
     const getDays = () => {
         const date = new Date()
-        let setDay = Number(date.getDate());
+
+        let setDay;
+        let setMonth;
+        (Number(date.getDate()) < 10) ? setDay = `0${date.getDate()}` : setDay = date.getDay();
+        (Number(date.getMonth() + 1) < 10) ? setMonth = `0${date.getMonth() + 1}` : setMonth = date.getMonth() + 1;
         for (let i = 0; i < 7; i++) {
-            const day = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + setDay;
+            const day = date.getFullYear() + '-' + setMonth + '-' + setDay;
             const fecha = fechas.findIndex(item => item === day)
             setDay++;
             if (fecha !== -1) return selectDay(fecha)
@@ -72,7 +77,7 @@ const Turnos = () => {
                 let filterFechas = [... new Set(data.map(turno => turno.fecha))]
                 filterFechas = filterFechas.sort((a, b) => a.localeCompare(b))
                 if (filterFechas.length > 12) {
-                    filterFechas = filterFechas.slice(filterFechas.length - 12); 
+                    filterFechas = filterFechas.slice(filterFechas.length - 12);
                 }
                 setFechas(filterFechas)
             })
@@ -186,19 +191,12 @@ const Turnos = () => {
                 {isDetailOpen && <Modal open={isDetailOpen} closeModal={closeDetail} data={selectedItem} />}
             </div>
 
-            <ol className="flex justify-center gap-1 text-xs font-medium mt-4">
-                {Array.from({ length: Math.ceil(turnos.length / turnoPerPage) }, (_, i) => (
-                    <li key={i + 1}>
-                        <a
-                            onClick={() => paginate(i + 1)}
-                            className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-300 w-8 cursor-pointer
-                            ${currentPage === i + 1 ? 'bg-green-900 text-white' : 'bg-green-500 text-neutral-600 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white'}`}
-                        >
-                            {i + 1}
-                        </a>
-                    </li>
-                ))}
-            </ol>
+            <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalUsers={turnos.length}
+                usersPerPage={turnoPerPage}
+            />
         </div>
 
     )
