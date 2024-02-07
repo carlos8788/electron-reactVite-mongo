@@ -42,7 +42,7 @@ function createWindow() {
         mainWindow.loadFile('dist/index.html');
     } else {
         // Cargar desde el servidor de desarrollo de Vite.
-        mainWindow.loadURL('http://localhost:5173');
+        mainWindow.loadURL('http://localhost:8081');
         mainWindow.webContents.openDevTools('detach');
     }
 
