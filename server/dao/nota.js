@@ -1,4 +1,4 @@
-const NotaModel = require('../db/models/nota');
+const NotaModel = require('../db/models/notas');
 require('../db/models/users');
 require('../db/models/obraSocial');
 class NotaDao {

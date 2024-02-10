@@ -4,6 +4,7 @@ const setupUserIPC = require('./ipc/user');
 const path = require('path');
 const setupObraSocialIPC = require('./ipc/obraSocial');
 const setupTurnoIPC = require('./ipc/turno');
+const setupNotaIPC = require('./ipc/nota');
 
 
 try {
@@ -85,5 +86,6 @@ app.whenReady()
         setupUserIPC();
         setupObraSocialIPC();
         setupTurnoIPC()
+        setupNotaIPC()
         connectToDatabase();      
     })
