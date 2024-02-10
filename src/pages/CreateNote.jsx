@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const CreateTurno = () => {
+const CreateNote = () => {
     const emptyForm = {
         paciente: '',
         diagnostico: '',
@@ -72,7 +72,7 @@ const CreateTurno = () => {
             <div className="max-w-screen-xl mx-auto px-4 text-gray-600 gap-x-12 items-start justify-between lg:flex md:px-8">
                 <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-lg">
-                        <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Crear turno</h1>
+                        <h1 className="text-center text-2xl font-bold text-green-600 sm:text-3xl">Crear nota</h1>
                         <form
                             className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-xl sm:p-6 lg:p-8 bg-slate-200"
                             onSubmit={handleSubmit}
@@ -152,4 +152,4 @@ const CreateTurno = () => {
     )
 }
 
-export default CreateTurno
+export default CreateNote

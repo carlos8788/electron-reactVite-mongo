@@ -11,6 +11,7 @@ import Turnos from './pages/Turnos';
 import UpdateUser from './pages/UpdateUser';
 import UpdateTurno from './pages/UpdateTurno';
 import UserProfile from './pages/UserProfile';
+import CreateNote from './pages/CreateNote';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
           <Route path="/form" element={<CreateUser />} />
           <Route path="/users" element={<Users />} />
           <Route path="/obras-sociales" element={<ObrasSociales />} />
-          <Route path="/users-excel" element={<UsersExcel />} />
+          <Route path="/crear-nota" element={<CreateNote />} />
           <Route path="/crear-turno" element={<CreateTurno />} />
           <Route path="/update-turno" element={<UpdateTurno />} />
           <Route path="/turnos" element={<Turnos />} />
