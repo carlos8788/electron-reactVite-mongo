@@ -6,18 +6,18 @@ const setupNotaIPC = () => {
 
   ipcMain.handle('get-notas', async (event) => {
     try {
-      const users = await NotaController.getTurnos()
-      return JSON.stringify(users);
+      const notas = await NotaController.getNotas()
+      return JSON.stringify(notas);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }
   });
 
-  ipcMain.handle('get-notas', async (event, id) => {
+  ipcMain.handle('get-nota', async (event, id) => {
     try {
 
-      const turno = await NotaController.getTurno(id)
-      return JSON.stringify(turno);
+      const nota = await NotaController.getNota(id)
+      return JSON.stringify(nota);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }
@@ -25,10 +25,10 @@ const setupNotaIPC = () => {
 
   ipcMain.handle('create-nota', async (event, data) => {
     try {
-      const turnoData = JSON.parse(data);
-      console.log(turnoData)
-      const turno = await NotaController.createTurno(turnoData)
-      return JSON.stringify(turno);
+      const notaData = JSON.parse(data);
+      console.log(notaData)
+      const nota = await NotaController.createNota(notaData)
+      return JSON.stringify(nota);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }
@@ -36,8 +36,8 @@ const setupNotaIPC = () => {
 
   ipcMain.handle('create-notas', async (event, dataString) => {
     try {
-      const turnosData = JSON.parse(dataString);
-      const turnos = await NotaController.createTurnos(turnosData)
+      const notasData = JSON.parse(dataString);
+      const turnos = await NotaController.createNotas(notasData)
       return JSON.stringify(turnos);
     } catch (error) {
       throw JSON.stringify(new Error(error));
@@ -46,11 +46,11 @@ const setupNotaIPC = () => {
 
   ipcMain.handle('update-nota', async (event, data) => {
     try {
-      const turnoData = JSON.parse(data);
-      console.log(turnoData)
-      const { _id, ...turnoInfo } = turnoData
-      const user = await NotaController.updateTurno(_id, turnoInfo)
-      return JSON.stringify(user);
+      const notaData = JSON.parse(data);
+      console.log(notaData)
+      const { _id, ...notaInfo } = notaData
+      const nota = await NotaController.updateNota(_id, notaInfo)
+      return JSON.stringify(usenotar);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }
@@ -58,7 +58,7 @@ const setupNotaIPC = () => {
 
   ipcMain.handle('delete-nota', async (event, id) => {
     try {
-      const result = await NotaController.deleteTurno(id)
+      const result = await NotaController.deleteNota(id)
       return JSON.stringify(result);
     } catch (error) {
       throw JSON.stringify(new Error(error));
