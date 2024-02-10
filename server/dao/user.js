@@ -57,8 +57,9 @@ class UserDao {
     async findByField(field, value) {
         try {
             const query = {};
-            query[field] = { $regex: new RegExp(value, 'i') }; // Insensible a mayúsculas y minúsculas
-
+            const data = value.replace(/\+/g, '\\+');
+            const regex = new RegExp(data, 'i');            
+            query[field] = { $regex: regex }; // Insensible a mayúsculas y minúsculas
             const result = await this.userModel.find(query).populate('obraSocial', 'nombre');
             return result;
         } catch (error) {

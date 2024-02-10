@@ -10,16 +10,16 @@ const NotaController = {
             throw error;
         }
     },
-    getNota: async (nota) => {
+    getNota: async (data) => {
         try {
-            return await nota.getById(nota);
+            return await nota.getById(data);
         } catch (error) {
             throw error;
         }
     },
-    createNota: async (nota) => {
+    createNota: async (data) => {
         try {
-            return await nota.create(nota);
+            return await nota.create(data);
         } catch (error) {
             throw error;
         }

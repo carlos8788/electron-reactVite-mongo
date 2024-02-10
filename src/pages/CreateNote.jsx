@@ -1,56 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 import ipcConnect from '../api/ipcIndex';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CreateNote = () => {
-    const emptyForm = {
-        paciente: '',
-        diagnostico: '',
-        hora: '',
-        fecha: ''
-    }
-
     const formRef = useRef(null)
     const navigate = useNavigate()
-    const [formData, setFormData] = useState(emptyForm);
-    const [initialData, setInitialData] = useState('')
+    const [date, setDate] = useState({})
 
-    const location = useLocation();
-    useEffect(() => {
-
-        if (location.state) setInitialData(location.state);
-    }, [location.state]);
 
     useEffect(() => {
         const today = new Date();
 
-        const formattedDate = today.getFullYear() + '-' +
+        const fecha = today.getFullYear() + '-' +
             (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
             today.getDate().toString().padStart(2, '0');
 
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            paciente: initialData,
-            fecha: formattedDate
-        }));
-    }, [initialData]);
+        const hora = today.getHours() + ':' + today.getMinutes()
 
+        setDate({hora, fecha})
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
-
+    }, []);
 
 
     const registerTurno = (formData) => {
         // console.log(formData)
-        ipcConnect.create('create-turno', formData)
+        ipcConnect.create('create-nota', formData)
             .catch(error => {
-                console.error('Error al crear usuario:', error);
+                console.error('Error al crear nota:', error);
             });
     };
 
@@ -58,13 +34,9 @@ const CreateNote = () => {
         e.preventDefault();
         const dataForm = new FormData(e.target);
         const data = Object.fromEntries(dataForm.entries());
-        const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
-        setFormData(prevData => ({
-            ...prevData,
-            paciente: paciente?._id
-        }));
-        registerTurno({ ...formData, paciente: paciente?._id });
-        setFormData(emptyForm)
+        const paciente = await ipcConnect.filterData('get-data-filter', 'telefono', data.telefono)
+        const consulta = { ...data, paciente: paciente[0]?._id, hora: date.hora, fecha: date.fecha}
+        registerTurno(consulta);        
         navigate('/turnos')
     };
     return (
@@ -86,28 +58,12 @@ const CreateNote = () => {
                                             <input
                                                 type="text"
                                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                                placeholder="Ingrese DNI"
-                                                name='paciente'
-                                                value={formData.paciente}
-                                                onChange={handleInputChange}
-
+                                                placeholder="Ingrese teléfono"
+                                                name='telefono'
                                             />
                                         </div>
                                     </div>
-                                    <div className='bg-slate-100 rounded-md'>
-                                        <label htmlFor="hora" className="sr-only"></label>
 
-                                        <div className="relative">
-                                            <input
-                                                type="time"
-                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                                placeholder="Ingrese apellido"
-                                                name='hora'
-                                                onChange={handleInputChange}
-
-                                            />
-                                        </div>
-                                    </div>
 
                                     <div className='bg-slate-100 rounded-md'>
                                         <label htmlFor="OrderNotes" className="sr-only"></label>
@@ -115,33 +71,19 @@ const CreateNote = () => {
                                             id="OrderNotes"
                                             className="w-full resize-none rounded-lg border align-top focus:ring-0 sm:text-sm pl-4 pt-2"
                                             rows="4"
-                                            placeholder="Observaciones"
-                                            name='diagnostico'
-                                            value={formData.diagnostico}
-                                            onChange={handleInputChange}
+                                            placeholder="Nota..."
+                                            name='texto'
                                         ></textarea>
                                     </div>
 
-                                    <div className='bg-slate-100 rounded-md'>
-                                        <label htmlFor="fecha" className="sr-only"></label>
-                                        <div className="relative">
-                                            <input
-                                                type="date"
-                                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                                                placeholder="Fecha"
-                                                name='fecha'
-                                                value={formData.fecha}
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <button
                                 type="submit"
                                 className="block w-full rounded-lg bg-green-600 px-5 py-3 text-sm font-medium text-white"
                             >
-                                Registrar turno
+                                Crear nota
                             </button>
 
                         </form>

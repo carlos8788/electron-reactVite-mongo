@@ -16,7 +16,7 @@ class NotaDao {
                     model: 'ObraSocial'
                 }
             });
-            
+
         } catch (error) {
             throw new Error(error.message)
         }
@@ -40,7 +40,9 @@ class NotaDao {
 
     async getAllByDate(date) {
         try {
-            const result = await this.notaModel.find({ fecha: { $regex: new RegExp(date, 'i') } });
+            const data = date.replace(/\+/g, '\\+');
+            const regex = new RegExp(data, 'i');
+            const result = await this.notaModel.find({ fecha: { $regex: regex } });
             return result;
         } catch (error) {
             console.log(error)
