@@ -1,4 +1,4 @@
-# Project Electron + React + Vite
+# Project Electron + React + Vite + MongoDB
 
 
 ## Una App de escritorio para organizar a los usuarios y los turnos que pueda solicitar
