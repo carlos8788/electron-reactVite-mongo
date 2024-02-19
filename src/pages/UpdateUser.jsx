@@ -33,7 +33,7 @@ export default function UpdateUser() {
         apellido: initialData.apellido || '',
         observaciones: initialData.observaciones || '',
         telefono: initialData.telefono || '',
-        dni: initialData.dni || '',
+        dni: initialData.dni?.trim() || '',
         edad: initialData.edad || '',
         obraSocial: initialData.obraSocial || '',
     }

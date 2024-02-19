@@ -17,7 +17,7 @@ const CreateNote = () => {
 
         const hora = today.getHours() + ':' + today.getMinutes()
 
-        setDate({hora, fecha})
+        setDate({ hora, fecha })
 
     }, []);
 
@@ -35,8 +35,8 @@ const CreateNote = () => {
         const dataForm = new FormData(e.target);
         const data = Object.fromEntries(dataForm.entries());
         const paciente = await ipcConnect.filterData('get-data-filter', 'telefono', data.telefono)
-        const consulta = { ...data, paciente: paciente[0]?._id, hora: date.hora, fecha: date.fecha}
-        registerTurno(consulta);        
+        const consulta = { ...data, paciente: paciente[0]?._id, hora: date.hora, fecha: date.fecha }
+        registerTurno(consulta);
         navigate('/turnos')
     };
     return (
