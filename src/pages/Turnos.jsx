@@ -7,6 +7,7 @@ import CrearDia from '../Components/CrearDia';
 import Alert from '../Components/Alert';
 import Modal from '../Components/Modal';
 import Pagination from '../Components/Pagination';
+import { getDays } from '../helpers/dateUtils';
 
 const Turnos = () => {
     const toNavigate = useNavigate()
@@ -55,18 +56,6 @@ const Turnos = () => {
         })
     }
 
-    const getDays = () => {
-        const date = new Date();
-        for (let i = 0; i < 7; i++) {
-            const futureDate = new Date(date);
-            futureDate.setDate(date.getDate() + i);
-            const formattedDate = futureDate.toISOString().split('T')[0];
-            const fechaIndex = fechas.findIndex(item => item === formattedDate);
-
-            if (fechaIndex !== -1) return selectDay(fechaIndex); 
-        }
-
-    }
 
     useEffect(() => {
         ipcConnect.get('get-turnos')
@@ -82,7 +71,7 @@ const Turnos = () => {
             .catch((error) => console.log(error));
     }, []);
 
-    useEffect(getDays, [fechas])
+    useEffect(() => getDays(fechas, selectDay), [fechas])
 
     const indexOfLastTurno = currentPage * turnoPerPage;
     const indexOfFirstTurno = indexOfLastTurno - turnoPerPage;
