@@ -3,12 +3,15 @@ import ipcConnect from "../api/ipcIndex"
 import { toCapitalize } from "../helpers/capitalizeStr"
 import Modal from "../Components/Modal"
 import { useNavigate } from "react-router-dom"
+import Alert from "../Components/Alert"
 
 const Notes = () => {
     const [notes, setNotes] = useState([])
     const [selectedItem, setSelectedItem] = useState(null);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [idNote, setIdNote] = useState(null)
+
     const toNavigate = useNavigate()
 
     const createNote = () => toNavigate('/crear-nota')
@@ -20,15 +23,19 @@ const Notes = () => {
     const closeDetail = () => setIsDetailOpen(false);
     const closeAlert = () => setIsAlertOpen(false)
 
+    const openAlert = (id) => {
+        setIdNote(id)
+        setIsAlertOpen(true)
+    }
     const handleDeleteConfirm = async (item) => {
         deleteNote(item)
         setIsAlertOpen(false);
     };
     const deleteNote = (id) => {
 
-        ipcConnect.delete('delete-turno', id)
+        ipcConnect.delete('delete-nota', id)
             .then(result => {
-                setTurnos(result);
+                setNotes(result);
             })
             .catch(error => {
                 console.log(error)
@@ -101,7 +108,7 @@ const Notes = () => {
                                                     Edit
                                                 </button>
                                                 <button
-                                                    // onClick={() => openAlert(item._id)}
+                                                    onClick={() => openAlert(item._id)}
                                                     className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-200 rounded-lg"
                                                 >
                                                     Delete
@@ -115,7 +122,7 @@ const Notes = () => {
                         </tbody>
                     </table>
                     {/* {isModalOpen && <CrearDia open={isModalOpen} closeModal={closeModal} />} */}
-                    {/* {isAlertOpen && <Alert open={isAlertOpen} closeModal={closeAlert} onConfirm={() => handleDeleteConfirm(id)} />} */}
+                    {isAlertOpen && <Alert open={isAlertOpen} closeModal={closeAlert} onConfirm={() => handleDeleteConfirm(idNote)} />}
                     {isDetailOpen && <Modal open={isDetailOpen} closeModal={closeDetail} data={selectedItem} />}
                 </div>
 
