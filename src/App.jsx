@@ -6,6 +6,7 @@ import ObrasSociales from './pages/ObrasSociales';
 import Users from './pages/Users';
 import CreateTurno from './pages/CreateTurno';
 import CreateNote from './pages/CreateNote';
+import UpdateNote from './pages/UpdateNote';
 import Turnos from './pages/Turnos';
 import UpdateUser from './pages/UpdateUser';
 import UpdateTurno from './pages/UpdateTurno';
@@ -26,6 +27,7 @@ function App() {
           <Route path="/obras-sociales" element={<ObrasSociales />} />
           <Route path="/notas" element={<Notes />} />
           <Route path="/crear-nota" element={<CreateNote />} />
+          <Route path="/update-nota" element={<UpdateNote />} />
           <Route path="/crear-turno" element={<CreateTurno />} />
           <Route path="/update-turno" element={<UpdateTurno />} />
           <Route path="/turnos" element={<Turnos />} />

@@ -50,7 +50,7 @@ const setupNotaIPC = () => {
       console.log(notaData)
       const { _id, ...notaInfo } = notaData
       const nota = await NotaController.updateNota(_id, notaInfo)
-      return JSON.stringify(usenotar);
+      return JSON.stringify(nota);
     } catch (error) {
       throw JSON.stringify(new Error(error));
     }

@@ -31,9 +31,9 @@ const NotaController = {
             throw error;
         }
     },
-    updateNota: async (id, nota) => {
+    updateNota: async (id, data) => {
         try {
-            return await nota.update(id, nota);
+            return await nota.update(id, data);
         } catch (error) {
             throw error;
         }

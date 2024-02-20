@@ -17,6 +17,7 @@ const Notes = () => {
     const createNote = () => toNavigate('/crear-nota')
 
     const openModalDetail = (item) => {
+        item.paciente.observaciones = item.texto
         setSelectedItem(item);
         setIsDetailOpen(true)
     }
@@ -41,6 +42,9 @@ const Notes = () => {
                 console.log(error)
             })
     }
+
+    const editTurno = (data) => toNavigate('/update-nota', { state: data })
+
     useEffect(() => {
         ipcConnect.get('get-notas')
             .then(setNotes)
@@ -102,7 +106,7 @@ const Notes = () => {
                                                     Detalles
                                                 </button>
                                                 <button
-                                                    // onClick={() => editTurno(item)}
+                                                    onClick={() => editTurno(item)}
                                                     className="mx-3 py-2 leading-none px-3 font-medium text-blue-600 hover:text-blue-500 duration-150 hover:bg-gray-200 rounded-lg"
                                                 >
                                                     Edit
