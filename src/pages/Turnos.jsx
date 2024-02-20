@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import ipcConnect from '../api/ipcIndex';
-import { toCapitalize } from '../helpers/capitalizeStr';
-import DropDown from '../Components/DropDown';
 import { useNavigate } from 'react-router-dom';
+import DropDown from '../Components/DropDown';
 import CrearDia from '../Components/CrearDia';
 import Alert from '../Components/Alert';
 import Modal from '../Components/Modal';
 import Pagination from '../Components/Pagination';
+import ipcConnect from '../api/ipcIndex';
+import { toCapitalize } from '../helpers/capitalizeStr';
 import { getDays } from '../helpers/dateUtils';
 
 const Turnos = () => {
@@ -15,7 +15,7 @@ const Turnos = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
     const [fechas, setFechas] = useState([]);
-    const [dayView, setDayView] = useState(0);
+    // const [dayView, setDayView] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -49,7 +49,7 @@ const Turnos = () => {
     };
 
     const selectDay = (day) => {
-        setDayView(day);
+        // setDayView(day);
         ipcConnect.filterData('get-turno-filter', 'fecha', fechas[day]).then(result => {
             setTurnos(result.sort((a, b) => a.hora.localeCompare(b.hora)))
             paginate(1)

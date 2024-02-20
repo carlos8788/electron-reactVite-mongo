@@ -30,7 +30,7 @@ export const Sidebar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to={'/crear-nota'} className={classOfLinks}>
+                    <Link to={'/notas'} className={classOfLinks}>
                         <img src={note} alt="" style={{ width: '24px' }} className='mr-4' />
                         Notas
                     </Link>
