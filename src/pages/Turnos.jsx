@@ -56,18 +56,16 @@ const Turnos = () => {
     }
 
     const getDays = () => {
-        const date = new Date()
-
-        let setDay;
-        let setMonth;
-        (Number(date.getDate()) < 10) ? setDay = `0${date.getDate()}` : setDay = date.getDay();
-        (Number(date.getMonth() + 1) < 10) ? setMonth = `0${date.getMonth() + 1}` : setMonth = date.getMonth() + 1;
+        const date = new Date();
         for (let i = 0; i < 7; i++) {
-            const day = date.getFullYear() + '-' + setMonth + '-' + setDay;
-            const fecha = fechas.findIndex(item => item === day)
-            setDay++;
-            if (fecha !== -1) return selectDay(fecha)
+            const futureDate = new Date(date);
+            futureDate.setDate(date.getDate() + i);
+            const formattedDate = futureDate.toISOString().split('T')[0];
+            const fechaIndex = fechas.findIndex(item => item === formattedDate);
+
+            if (fechaIndex !== -1) return selectDay(fechaIndex); 
         }
+
     }
 
     useEffect(() => {
