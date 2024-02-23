@@ -17,7 +17,16 @@ const Notes = () => {
     const createNote = () => toNavigate('/crear-nota')
 
     const openModalDetail = (item) => {
-        item.paciente.observaciones = item.texto
+        if (item?.paciente) {
+            item.paciente.observaciones = item.texto
+        }
+        else {
+            const paciente = {
+                observaciones: item.texto,
+                telefono: item.telefono
+            }
+            item.paciente = paciente
+        }
         setSelectedItem(item);
         setIsDetailOpen(true)
     }

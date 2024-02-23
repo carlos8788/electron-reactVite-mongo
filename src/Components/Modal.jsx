@@ -48,7 +48,7 @@ export default function Modal({data, open=true, closeModal, addUser}) {
                                             <span>Nombre: {paciente?.nombre}</span>
                                             <span>Apellido: {paciente?.apellido}</span>
                                             <span>DNI: {paciente?.dni}</span>
-                                            <span>Obra Social: {paciente?.obraSocial.nombre}</span>
+                                            <span>Obra Social: {paciente?.obraSocial?.nombre}</span>
                                             <span>Teléfono: {paciente?.telefono}</span>
                                             <span>Observaciones: {paciente?.observaciones}</span>
                                             <span>Motivo: {data?.diagnostico}</span>
