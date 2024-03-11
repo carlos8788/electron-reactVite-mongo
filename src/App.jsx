@@ -15,7 +15,6 @@ import Notes from './pages/Notes';
 
 function App() {
 
-
   return (
 
     <Router>

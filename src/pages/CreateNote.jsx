@@ -32,7 +32,7 @@ const CreateNote = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const dataForm = new FormData(e.target);
-        const data = Object.fromEntries(dataForm.entries());
+        const data = Object.fromEntries(dataForm);
         const paciente = await ipcConnect.filterData('get-data-filter', 'telefono', data.telefono)
         const consulta = { ...data, paciente: paciente[0]?._id, hora: date.hora, fecha: date.fecha }
         registerTurno(consulta);
