@@ -50,9 +50,7 @@ const UpdateTurno = () => {
         const dataForm = new FormData(e.target);
         const data = Object.fromEntries(dataForm.entries());
         data.paciente = prepareDNI(data.paciente.trim())
-        console.log(data.paciente)
         const paciente = await ipcConnect.getOne('get-user-dni', data.paciente)
-        console.log(paciente)
         setFormData(prevData => ({
             ...prevData,
             paciente: paciente?._id
