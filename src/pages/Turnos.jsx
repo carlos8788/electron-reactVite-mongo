@@ -8,6 +8,7 @@ import Pagination from '../Components/Pagination';
 import ipcConnect from '../api/ipcIndex';
 import { toCapitalize } from '../helpers/capitalizeStr';
 import { getDays } from '../helpers/dateUtils';
+import { splitStr } from '../helpers/splitStr';
 
 const Turnos = () => {
     const toNavigate = useNavigate()
@@ -136,8 +137,8 @@ const Turnos = () => {
                                 .sort((a, b) => a.hora.localeCompare(b.hora))
                                 .map((item, idx) => (
                                     <tr key={idx} className={idx % 2 === 0 ? `bg-slate-300` : ''}>
-                                        <td className="px-4 py-1 whitespace-nowrap font-medium">
-                                            {toCapitalize(item.paciente?.nombre)}-{toCapitalize(item.paciente?.apellido)}
+                                        <td className="px-4 py-1 whitespace-nowrap font-medium">                                            
+                                            {splitStr(item.paciente?.nombre)} - {splitStr(item.paciente?.apellido)}
                                         </td>
                                         <td className="py-1 whitespace-nowrap text-center">
                                             {item.paciente?.obraSocial?.nombre.substring(0, 10)}{item.obraSocial?.nombre.substring(0, 10).length >= 10 ? '...' : ''}
