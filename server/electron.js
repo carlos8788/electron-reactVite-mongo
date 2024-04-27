@@ -5,6 +5,8 @@ const path = require('path');
 const setupObraSocialIPC = require('./ipc/obraSocial');
 const setupTurnoIPC = require('./ipc/turno');
 const setupNotaIPC = require('./ipc/nota');
+const { ipcMain } = require('electron');
+const { createSecondaryWindow } = require('./secondaryWindow');
 
 
 try {
@@ -55,6 +57,9 @@ function createWindow() {
         mainWindow = null;
     });
 
+
+    ipcMain.on('open-secondary-window', createSecondaryWindow);
+
 }
 
 // Este método será llamado cuando Electron haya finalizado
@@ -87,5 +92,5 @@ app.whenReady()
         setupObraSocialIPC();
         setupTurnoIPC()
         setupNotaIPC()
-        connectToDatabase();      
+        connectToDatabase();
     })

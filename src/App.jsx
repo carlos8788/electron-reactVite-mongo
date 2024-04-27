@@ -12,6 +12,7 @@ import UpdateUser from './pages/UpdateUser';
 import UpdateTurno from './pages/UpdateTurno';
 import UserProfile from './pages/UserProfile';
 import Notes from './pages/Notes';
+import MostrarTurnos from './pages/MostrarTurnos';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/turnos" element={<Turnos />} />
           <Route path="/update-user" element={<UpdateUser />} />
           <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="lista-turnos" element={<MostrarTurnos />} />
         </Routes>
       </Layout>
     </Router>

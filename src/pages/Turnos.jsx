@@ -6,9 +6,11 @@ import Alert from '../Components/Alert';
 import Modal from '../Components/Modal';
 import Pagination from '../Components/Pagination';
 import ipcConnect from '../api/ipcIndex';
-import { toCapitalize } from '../helpers/capitalizeStr';
+// import { toCapitalize } from '../helpers/capitalizeStr';
 import { getDays } from '../helpers/dateUtils';
 import { splitStr } from '../helpers/splitStr';
+import ListaTurnos from '../Components/ListaTurnos';
+import { today } from '../helpers/today';
 
 const Turnos = () => {
     const toNavigate = useNavigate()
@@ -16,7 +18,6 @@ const Turnos = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [turnoPerPage] = useState(10);
     const [fechas, setFechas] = useState([]);
-    // const [dayView, setDayView] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAlertOpen, setIsAlertOpen] = useState(false);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -119,6 +120,7 @@ const Turnos = () => {
                 >
                     test
                 </button> */}
+                <ListaTurnos/>
             </div>
             <div className="mt-6 shadow-sm border rounded-lg overflow-x-auto">
                 <table className="w-full table-auto  text-left">
